@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TM129: Technologies in Practice — Complete MTA Exam Study Hub</title>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#090d16',
+            cyanAccent: '#38bdf8',
+            indigoAccent: '#818cf8',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Base Dark Obsidian Theme & Ambient Glow */
+    body {
+      background-color: #090d16;
+      color: #f1f5f9;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient Background Radial Orbs */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.09) 0%, transparent 42%),
+        radial-gradient(circle at 88% 20%, rgba(129, 140, 248, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 50% 88%, rgba(56, 189, 248, 0.05) 0%, transparent 50%),
+        #090d16;
+    }
+
+    /* Translucent Glassmorphism Surface */
+    .glass-card {
+      background: rgba(17, 25, 40, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.24);
+    }
+
+    .glass-header {
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.45);
+    }
+
+    /* Hide scrollbar for horizontal topic pills on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Flashcard 3D Flip Animation */
+    .flashcard-scene {
+      perspective: 1400px;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+    .flashcard-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .flashcard-face {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Smooth Answer Reveal */
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-reveal {
+      animation: fadeSlideDown 0.22s ease-out forwards;
+    }
+
+    /* Formatted Answer Typography */
+    .answer-rich strong {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .answer-rich code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(56, 189, 248, 0.12);
+      color: #7dd3fc;
+      padding: 0.1rem 0.38rem;
+      border-radius: 0.375rem;
+      font-size: 0.85em;
+    }
+    .answer-rich ul, .answer-rich ol {
+      margin-top: 0.4rem;
+      padding-left: 1.25rem;
+    }
+    .answer-rich ul {
+      list-style-type: disc;
+    }
+    .answer-rich ol {
+      list-style-type: decimal;
+    }
+    .answer-rich li {
+      margin-bottom: 0.45rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-sky-400/30 selection:text-sky-200">
+  <div class="ambient-bg"></div>
+
+  <!-- TOP STICKY HEADER BAR -->
+  <header class="glass-header sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        <!-- Brand & Badges -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
+              <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-400/15 text-sky-300 border border-sky-400/30 tracking-wide">
+                  TM129 — Technologies in Practice
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-400/15 text-amber-300 border border-amber-400/30 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  Exam: Nov 19
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-400/15 text-indigo-300 border border-indigo-400/30">
+                  Batch 1 Loaded (10 Files)
+                </span>
+              </div>
+              <h1 class="text-sm sm:text-base font-bold text-slate-100 mt-1 tracking-tight">
+                Complete MTA Exam Study Hub
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Mastery Progress Bar -->
+        <div class="flex items-center gap-3 bg-slate-900/70 border border-white/10 rounded-xl px-3.5 py-2 lg:min-w-[310px]">
+          <div class="flex-1">
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <span class="font-medium text-slate-300" id="masteryText">Mastered 0 / 107 Questions</span>
+              <span class="font-mono font-semibold text-sky-400" id="masteryPercent">0%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div id="masteryBar" class="h-full bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="relative">
+            <button id="resetProgressBtn" title="Reset mastery & flags" class="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs font-medium">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+            <!-- Custom Inline Reset Confirmation Popover (No confirm()) -->
+            <div id="resetPopover" class="hidden absolute right-0 mt-2 w-60 glass-card rounded-xl p-3 shadow-2xl border border-rose-500/30 z-50">
+              <p class="text-xs text-slate-200 font-medium mb-2.5">Clear all mastered and flagged progress?</p>
+              <div class="flex items-center justify-end gap-2">
+                <button id="cancelResetBtn" class="px-2.5 py-1 rounded-lg text-xs text-slate-300 hover:bg-white/10">Cancel</button>
+                <button id="confirmResetBtn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-500 text-white hover:bg-rose-600">Reset All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODE SWITCHER TABS -->
+      <nav class="mt-3.5 flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5" aria-label="Study Modes">
+        <button data-mode="bank" class="mode-tab active flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 border border-sky-400/40 shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Study Bank (All Questions)
+        </button>
+        <button data-mode="flashcards" class="mode-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          Active Recall Flashcards
+        </button>
+        <button data-mode="quiz" class="mode-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Interactive MCQ &amp; Matching Quiz
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- FILTER & SEARCH CONTROL PANEL -->
+    <section class="glass-card rounded-2xl p-4 sm:p-5 mb-6 shadow-xl">
+      <!-- Top Row: Search Input + Type Filter + Quick Toggles -->
+      <div class="flex flex-col lg:flex-row gap-3">
+        <!-- Live Search -->
+        <div class="relative flex-1">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Instant search across 107 questions, options, answers, protocols, OSI layers..."
+            class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-950/70 border border-white/10 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-400/60 focus:ring-2 focus:ring-sky-400/20 transition"
+          />
+          <button id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-1" aria-label="Clear search">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Question Type Selector -->
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2">
+          <select id="typeFilter" aria-label="Question Type Filter" class="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-slate-950/70 border border-white/10 text-sm text-slate-200 focus:outline-none focus:border-sky-400/60 cursor-pointer">
+            <option value="ALL">All Types (107)</option>
+            <option value="MCQ">MCQ (33)</option>
+            <option value="Matching">Matching (8)</option>
+            <option value="Compare & Contrast">Compare &amp; Contrast (23)</option>
+            <option value="Short Answer & Scenarios">Short Answer &amp; Scenarios (43)</option>
+          </select>
+
+          <!-- High-Yield Toggle -->
+          <button id="highYieldToggle" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-slate-950/70 border border-white/10 text-slate-300 hover:border-amber-400/40 transition whitespace-nowrap">
+            <span>High-Yield / Repeated Only 🔥</span>
+          </button>
+
+          <!-- Flagged / Unmastered Toggle -->
+          <button id="unmasteredToggle" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-slate-950/70 border border-white/10 text-slate-300 hover:border-indigo-400/40 transition whitespace-nowrap">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+            </svg>
+            <span>Flagged / Unmastered Only</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Topic Filter Pills -->
+      <div class="mt-3.5 pt-3.5 border-t border-white/10">
+        <div id="topicPillsContainer" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 1: STUDY BANK (ALL QUESTIONS)
+         ========================================================= -->
+    <section id="view-bank" class="space-y-4">
+      <!-- Action Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1">
+        <div class="flex items-center gap-2 text-sm text-slate-300">
+          <span class="font-semibold text-white" id="filteredCountLabel">Showing 107 of 107 questions</span>
+          <span id="flaggedBadgeCount" class="px-2 py-0.5 rounded-full text-xs bg-amber-500/15 text-amber-300 border border-amber-500/30">0 Flagged</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="revealAllBtn" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-sky-500/15 text-sky-300 border border-sky-400/30 hover:bg-sky-500/25 transition flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            Reveal All
+          </button>
+          <button id="collapseAllBtn" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800/80 text-slate-300 border border-white/10 hover:bg-slate-700/80 transition flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+            </svg>
+            Collapse All
+          </button>
+        </div>
+      </div>
+
+      <!-- Questions List Container -->
+      <div id="questionsContainer" class="space-y-4">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 2: ACTIVE RECALL FLASHCARDS
+         ========================================================= -->
+    <section id="view-flashcards" class="hidden max-w-3xl mx-auto">
+      <div id="flashcardEmptyState" class="hidden glass-card rounded-2xl p-10 text-center">
+        <p class="text-slate-300 font-medium mb-3">No flashcards match your current filters.</p>
+        <button onclick="resetFilters()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30 hover:bg-sky-500/30">
+          Reset Filters
+        </button>
+      </div>
+
+      <div id="flashcardWorkspace" class="space-y-4">
+        <!-- Flashcard Top Status & Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 glass-card rounded-2xl px-4 py-3">
+          <div class="flex items-center gap-3">
+            <span id="fcCounter" class="font-mono text-xs sm:text-sm font-semibold text-sky-400 bg-sky-400/10 px-3 py-1 rounded-lg border border-sky-400/20">
+              Card 1 of 107
+            </span>
+            <span id="fcStatusBadges" class="flex items-center gap-1.5"></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="fcShuffleBtn" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-500/15 text-indigo-300 border border-indigo-400/30 hover:bg-indigo-500/25 transition flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Shuffle Deck
+            </button>
+          </div>
+        </div>
+
+        <!-- Flashcard Interactive Card -->
+        <div id="flashcardTapArea" class="glass-card rounded-3xl p-6 sm:p-8 min-h-[340px] flex flex-col justify-between cursor-pointer border border-white/10 hover:border-sky-400/40 shadow-2xl relative select-none">
+          <!-- Card Header Metadata -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-white/10">
+            <div class="flex flex-wrap items-center gap-2" id="fcMetaTags"></div>
+            <span id="fcSideIndicator" class="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-white/10">
+              Question Front
+            </span>
+          </div>
+
+          <!-- Front Content -->
+          <div id="fcFrontContent" class="my-6 space-y-4">
+            <h2 id="fcQuestionText" class="text-lg sm:text-xl font-bold text-white leading-relaxed"></h2>
+            <div id="fcOptionsPreview" class="space-y-2"></div>
+          </div>
+
+          <!-- Back Content -->
+          <div id="fcBackContent" class="hidden my-6 space-y-4 animate-reveal">
+            <div class="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-400/25">
+              <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2 flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Model Answer &amp; Explanation
+              </div>
+              <div id="fcAnswerText" class="answer-rich text-sm sm:text-base text-slate-100 leading-relaxed"></div>
+            </div>
+          </div>
+
+          <!-- Footer Tap Prompt -->
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+              </svg>
+              Click card or press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 font-mono">Space</kbd> to flip
+            </span>
+            <span class="hidden sm:inline text-slate-500">Use ← / → arrows to navigate</span>
+          </div>
+        </div>
+
+        <!-- Flashcard Bottom Controls -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <button id="fcPrevBtn" class="px-4 py-3 rounded-xl text-sm font-semibold glass-card hover:bg-white/10 text-slate-200 flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Previous
+          </button>
+
+          <button id="fcFlagBtn" class="px-4 py-3 rounded-xl text-sm font-semibold glass-card hover:border-amber-400/50 text-amber-300 flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+            </svg>
+            <span id="fcFlagLabel">Flag Review</span>
+          </button>
+
+          <button id="fcMasterBtn" class="px-4 py-3 rounded-xl text-sm font-semibold bg-emerald-500/20 border border-emerald-400/40 hover:bg-emerald-500/30 text-emerald-300 flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span id="fcMasterLabel">Mark Mastered</span>
+          </button>
+
+          <button id="fcNextBtn" class="px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-950 hover:opacity-95 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20">
+            Next Card
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 3: INTERACTIVE MCQ & MATCHING QUIZ
+         ========================================================= -->
+    <section id="view-quiz" class="hidden max-w-4xl mx-auto space-y-5">
+      <!-- Quiz Scoreboard Header -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            Interactive MCQ &amp; Matching Self-Test
+            <span id="quizModeTag" class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30">
+              All 41 Quiz Items
+            </span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Test yourself on all 33 Multiple Choice and 8 Matching questions with instant grading.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="px-4 py-2 rounded-xl bg-slate-950/80 border border-white/10 text-center">
+            <div class="text-[11px] uppercase tracking-wider text-slate-400">Score</div>
+            <div class="font-mono text-base font-bold text-emerald-400" id="quizScoreDisplay">0 / 0</div>
+          </div>
+
+          <button id="retryIncorrectBtn" disabled class="px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30 hover:bg-amber-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            Retry Incorrect (<span id="incorrectCountSpan">0</span>)
+          </button>
+
+          <button id="restartQuizBtn" class="px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30 hover:bg-sky-500/30 transition">
+            Reset Quiz
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Questions Container -->
+      <div id="quizContainer" class="space-y-4">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8 border-t border-white/10 text-center text-xs text-slate-500">
+    TM129: Technologies in Practice • Complete MTA Exam Study Hub • All 107 Past Exam &amp; Revision Questions Ready for Nov 19
+  </footer>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC & COMPLETE 107-QUESTION DATASET -->
+  <script>
+    // =========================================================================
+    // 1. INLINE SVG DIAGRAMS FOR VISUAL EXAM QUESTIONS (#69 & #93)
+    // =========================================================================
+    const SVG_MULTIPROGRAMMING = `
+      <div class="mt-4 p-4 rounded-xl bg-slate-950/85 border border-sky-400/25 overflow-x-auto">
+        <div class="text-xs font-mono text-sky-300 mb-2 font-semibold">Memory Layout for a Multiprogramming System</div>
+        <svg viewBox="0 0 540 230" class="w-full max-w-lg mx-auto h-auto" role="img" aria-label="Multiprogramming Memory Layout Diagram">
+          <!-- Memory Frame -->
+          <rect x="30" y="12" width="220" height="206" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+          <!-- OS Partition -->
+          <rect x="32" y="14" width="216" height="44" rx="8" fill="#1e3a8a"/>
+          <text x="140" y="41" text-anchor="middle" fill="#e0f2fe" font-size="13" font-weight="700" font-family="Inter, sans-serif">Operating System</text>
+          <!-- Job 1 -->
+          <rect x="32" y="60" width="216" height="32" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="140" y="81" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="600" font-family="Inter, sans-serif">Job 1 (Running on CPU)</text>
+          <!-- Job 2 -->
+          <rect x="32" y="92" width="216" height="32" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="140" y="113" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="Inter, sans-serif">Job 2 (Waiting for I/O)</text>
+          <!-- Ellipsis -->
+          <rect x="32" y="124" width="216" height="28" fill="#0f172a"/>
+          <text x="140" y="142" text-anchor="middle" fill="#94a3b8" font-size="14" font-weight="700">• • •</text>
+          <!-- Job n -->
+          <rect x="32" y="152" width="216" height="32" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="140" y="173" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="Inter, sans-serif">Job n (Ready in RAM)</text>
+          <!-- Empty Space -->
+          <rect x="32" y="184" width="216" height="32" rx="6" fill="#090d16"/>
+          <text x="140" y="204" text-anchor="middle" fill="#64748b" font-size="11" font-style="italic" font-family="Inter, sans-serif">Empty Free Space</text>
+
+          <!-- CPU Box & Context Switch Arrows -->
+          <rect x="335" y="65" width="170" height="90" rx="12" fill="#111827" stroke="#818cf8" stroke-width="2"/>
+          <text x="420" y="96" text-anchor="middle" fill="#a5b4fc" font-size="13" font-weight="700" font-family="Inter, sans-serif">Single Shared CPU</text>
+          <text x="420" y="116" text-anchor="middle" fill="#e2e8f0" font-size="11" font-family="Inter, sans-serif">Always Busy (High Utilization)</text>
+          <text x="420" y="136" text-anchor="middle" fill="#38bdf8" font-size="10" font-family="JetBrains Mono, monospace">Context Switch on I/O</text>
+
+          <!-- Arrows -->
+          <path d="M255 76 L328 95" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+          <path d="M328 130 L255 166" stroke="#818cf8" stroke-width="2" stroke-dasharray="4 3"/>
+          <defs>
+            <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#38bdf8" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    `;
+
+    const SVG_TRANSMISSIONS = `
+      <div class="mt-4 p-4 rounded-xl bg-slate-950/85 border border-sky-400/25 overflow-x-auto">
+        <div class="text-xs font-mono text-sky-300 mb-2 font-semibold">Unicast vs. Broadcast vs. Multicast Transmission Diagrams</div>
+        <svg viewBox="0 0 660 190" class="w-full h-auto" role="img" aria-label="Unicast Broadcast Multicast Diagram">
+          <!-- Panel 1: Unicast -->
+          <rect x="8" y="8" width="206" height="174" rx="10" fill="#0f172a" stroke="#334155"/>
+          <text x="111" y="28" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">1. Unicast (1-to-1)</text>
+          <circle cx="48" cy="95" r="16" fill="#0284c7"/>
+          <text x="48" y="99" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">SRC</text>
+          <circle cx="172" cy="55" r="13" fill="#10b981"/>
+          <text x="172" y="59" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H1</text>
+          <circle cx="172" cy="95" r="13" fill="#1e293b" stroke="#475569"/>
+          <text x="172" y="99" text-anchor="middle" fill="#64748b" font-size="9">H2</text>
+          <circle cx="172" cy="135" r="13" fill="#1e293b" stroke="#475569"/>
+          <text x="172" y="139" text-anchor="middle" fill="#64748b" font-size="9">H3</text>
+          <line x1="65" y1="89" x2="156" y2="58" stroke="#10b981" stroke-width="2.5"/>
+          <text x="111" y="168" text-anchor="middle" fill="#94a3b8" font-size="10">Single target host</text>
+
+          <!-- Panel 2: Broadcast -->
+          <rect x="227" y="8" width="206" height="174" rx="10" fill="#0f172a" stroke="#334155"/>
+          <text x="330" y="28" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">2. Broadcast (1-to-All)</text>
+          <circle cx="267" cy="95" r="16" fill="#d97706"/>
+          <text x="267" y="99" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">SRC</text>
+          <circle cx="391" cy="55" r="13" fill="#f59e0b"/>
+          <text x="391" y="59" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H1</text>
+          <circle cx="391" cy="95" r="13" fill="#f59e0b"/>
+          <text x="391" y="99" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H2</text>
+          <circle cx="391" cy="135" r="13" fill="#f59e0b"/>
+          <text x="391" y="139" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H3</text>
+          <line x1="284" y1="89" x2="375" y2="58" stroke="#f59e0b" stroke-width="2"/>
+          <line x1="284" y1="95" x2="375" y2="95" stroke="#f59e0b" stroke-width="2"/>
+          <line x1="284" y1="101" x2="375" y2="132" stroke="#f59e0b" stroke-width="2"/>
+          <text x="330" y="168" text-anchor="middle" fill="#94a3b8" font-size="10">All hosts in LAN segment</text>
+
+          <!-- Panel 3: Multicast -->
+          <rect x="446" y="8" width="206" height="174" rx="10" fill="#0f172a" stroke="#334155"/>
+          <text x="549" y="28" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="700">3. Multicast (1-to-Group)</text>
+          <circle cx="486" cy="95" r="16" fill="#6366f1"/>
+          <text x="486" y="99" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">SRC</text>
+          <circle cx="610" cy="55" r="13" fill="#818cf8"/>
+          <text x="610" y="59" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H1</text>
+          <circle cx="610" cy="95" r="13" fill="#1e293b" stroke="#475569"/>
+          <text x="610" y="99" text-anchor="middle" fill="#64748b" font-size="9">H2</text>
+          <circle cx="610" cy="135" r="13" fill="#818cf8"/>
+          <text x="610" y="139" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">H3</text>
+          <line x1="503" y1="89" x2="594" y2="58" stroke="#818cf8" stroke-width="2.2"/>
+          <line x1="503" y1="101" x2="594" y2="132" stroke="#818cf8" stroke-width="2.2"/>
+          <text x="549" y="168" text-anchor="middle" fill="#94a3b8" font-size="10">Subscribed group (224.0.0.0/4)</text>
+        </svg>
+      </div>
+    `;
+
+    // =========================================================================
+    // 2. COMPLETE 107-QUESTION DATABASE (PRE-LOADED)
+    // =========================================================================
+    const TOPICS = [
+      'All Topics',
+      'Networking & OSI Model',
+      'IP Addressing & Subnetting',
+      'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+      'Devices, Topologies & Cabling',
+      'Cybersecurity & Wireless',
+      'OS Fundamentals & Architecture',
+      'Processes, Threads & Caching',
+      'Cloud & Virtualization'
+    ];
+
+    const QUESTIONS = [
+      // ==================== SECTION A: MULTIPLE CHOICE QUESTIONS (1-33) ====================
+      {
+        id: 1,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Makeup Spring 23/24',
+        highYield: true,
+        question: 'Which of the following is the main purpose of an operating system?',
+        options: [
+          'a) To manage hardware resources',
+          'b) To provide a user interface',
+          'c) To run application software',
+          'd) All of the above'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) All of the above</strong> — An OS manages computer hardware resources, provides a user interface, and acts as an environment to run application software.'
+      },
+      {
+        id: 2,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'A computer has to send a packet to a destination host in the same LAN. How will the packet be sent?',
+        options: [
+          'a) Sent to default gateway first, then depending on response sent to host',
+          'b) The packet will be sent directly to the destination host',
+          'c) Sent to default gateway first, then from gateway directly to host',
+          'd) Sent only to the default gateway'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) The packet will be sent directly to the destination host</strong> (using local MAC addressing via ARP/switch, no router/default gateway needed).'
+      },
+      {
+        id: 3,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Which of the following is not an example of an operating system?',
+        options: [
+          'a) Windows',
+          'b) Microsoft Office',
+          'c) Linux',
+          'd) macOS'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) Microsoft Office</strong> — It is an application software suite, whereas Windows, Linux, and macOS are operating systems.'
+      },
+      {
+        id: 4,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Which of the following is not a function of an operating system?',
+        options: [
+          'a) Process management',
+          'b) Memory management',
+          'c) File management',
+          'd) Network management'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) Network management</strong> — Per the exam key, the core OS functions listed are process, memory, file, and device management.'
+      },
+      {
+        id: 5,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Makeup Spring 23/24, Spring 25/26, Summer 25/26',
+        highYield: true,
+        question: 'At which layer of the OSI model would a logical address (IP address) be added during encapsulation?',
+        options: [
+          'a) Physical layer',
+          'b) Data link layer',
+          'c) Network layer',
+          'd) Transport layer'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) Network layer</strong> (Layer 3 handles logical IP addressing and routing).'
+      },
+      {
+        id: 6,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'In a multiprogramming system, multiple programs are kept in:',
+        options: [
+          'a) Secondary memory',
+          'b) Primary memory',
+          'c) Cache memory',
+          'd) Register'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) Primary memory</strong> (RAM holds multiple active jobs simultaneously so the CPU always has one to execute).'
+      },
+      {
+        id: 7,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'What is a process in an operating system?',
+        options: [
+          'a) A program in execution',
+          'b) A file stored on disk',
+          'c) A hardware component',
+          'd) An input/output device'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) A program in execution</strong> — A program on disk is passive, while a process is an active program in execution.'
+      },
+      {
+        id: 8,
+        type: 'MCQ',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'When troubleshooting network problems, where would a network administrator find configuration information, such as computer names and IP addresses that are used?',
+        options: [
+          'a) Physical topology diagram',
+          'b) DHCP server',
+          'c) DNS server',
+          'd) Logical topology diagram'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) Logical topology diagram</strong> — It documents logical network information such as host names, IP addresses, and subnet assignments.'
+      },
+      {
+        id: 9,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Which of the following is not a state of a process?',
+        options: [
+          'a) Running',
+          'b) Waiting',
+          'c) Executing',
+          'd) Ready'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) Executing</strong> — Standard process states are <code>New</code>, <code>Ready</code>, <code>Running</code>, <code>Waiting</code>, and <code>Terminated</code>.'
+      },
+      {
+        id: 10,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'What is the role of the process scheduler?',
+        options: [
+          'a) To create new processes',
+          'b) To terminate processes',
+          'c) To allocate CPU time to processes',
+          'd) To manage memory resources'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) To allocate CPU time to processes</strong> — The process scheduler selects an available process from the ready queue for execution on the CPU.'
+      },
+      {
+        id: 11,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What does the OSI model stand for?',
+        options: [
+          'a) Open Systems Interconnection',
+          'b) Operating Systems Interface',
+          'c) Online Systems Integration',
+          'd) Optical Systems Interconnection'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) Open Systems Interconnection</strong> — The 7-layer conceptual networking model standardized by ISO.'
+      },
+      {
+        id: 12,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Which of the following is NOT a type of operating system?',
+        options: [
+          'a) Batch Operating System',
+          'b) Time-Sharing Operating System',
+          'c) Distributed Operating System',
+          'd) Network Routing Operating System'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) Network Routing Operating System</strong>.'
+      },
+      {
+        id: 13,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What is the purpose of a default gateway in a network?',
+        options: [
+          'a) To connect devices within the same LAN',
+          'b) To forward traffic from a local network to other networks',
+          'c) To provide wireless connectivity',
+          'd) To manage DNS queries'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) To forward traffic from a local network to other networks</strong> (such as remote subnets or the internet).'
+      },
+      {
+        id: 14,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Which device primarily operates at the Transport Layer?',
+        options: [
+          'a) Switch',
+          'b) Router',
+          'c) PC',
+          'd) Bluetooth'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) PC</strong> — End hosts run Transport Layer protocols (TCP/UDP); Switch is Layer 2, and Router is Layer 3.'
+      },
+      {
+        id: 15,
+        type: 'MCQ',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What does TCP/IP stand for in networking?',
+        options: [
+          'a) Transmission Control Protocol/Internet Protocol',
+          'b) Transfer Control Process/Information Protocol',
+          'c) Terminal Communication Protocol/Internet Process',
+          'd) Transport Communication Protocol/Interface Protocol'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) Transmission Control Protocol/Internet Protocol</strong>.'
+      },
+      {
+        id: 16,
+        type: 'MCQ',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What is the primary purpose of ARP (Address Resolution Protocol)?',
+        options: [
+          'a) To map IP addresses to MAC addresses',
+          'b) To resolve domain names to IP addresses',
+          'c) To assign IP addresses dynamically',
+          'd) To encrypt network traffic'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) To map IP addresses to MAC addresses</strong> on a local Ethernet network.'
+      },
+      {
+        id: 17,
+        type: 'MCQ',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What is the purpose of a subnet mask in IP addressing?',
+        options: [
+          'a) To encrypt data packets',
+          'b) To identify the network portion of an IP address',
+          'c) To assign MAC addresses',
+          'd) To manage DNS queries'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) To identify the network portion of an IP address</strong> (separating the network prefix from the host portion).'
+      },
+      {
+        id: 18,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Which of the following is a characteristic of a distributed operating system?',
+        options: [
+          'a) Runs on a single machine only',
+          'b) Shares resources across multiple machines',
+          'c) Does not support multiprocessing',
+          'd) Used only for batch processing'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) Shares resources across multiple machines</strong> — Connects autonomous computers over a network so they appear as a single coherent system.'
+      },
+      {
+        id: 19,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Which of the following is NOT a feature of a real-time operating system?',
+        options: [
+          'a) Predictable response times',
+          'b) Support for multitasking',
+          'c) Batch processing of tasks',
+          'd) Used in embedded systems'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) Batch processing of tasks</strong> — RTOS focuses on strict real-time deadlines and deterministic response times rather than non-interactive batch queues.'
+      },
+      {
+        id: 20,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which component of an operating system manages the execution of processes?',
+        options: [
+          'a) File Manager',
+          'b) Process Manager',
+          'c) Compiler',
+          'd) Linker'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) Process Manager</strong>.'
+      },
+      {
+        id: 21,
+        type: 'MCQ',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which protocol is used to dynamically assign IP addresses to devices on a network?',
+        options: [
+          'a) DNS',
+          'b) FTP',
+          'c) DHCP',
+          'd) HTTP'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) DHCP</strong> (Dynamic Host Configuration Protocol).'
+      },
+      {
+        id: 22,
+        type: 'MCQ',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which of the following is a valid IPv4 address?',
+        options: [
+          'a) 192.168.1.300',
+          'b) 10.0.0.1',
+          'c) 256.100.10.5',
+          'd) 172.16.-1.1'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) 10.0.0.1</strong> — Each octet in IPv4 must be an integer between <code>0</code> and <code>255</code> (300, 256, and -1 are invalid).'
+      },
+      {
+        id: 23,
+        type: 'MCQ',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'What is the default subnet mask of a Class C IPv4 address?',
+        options: [
+          'a) 255.0.0.0',
+          'b) 255.255.0.0',
+          'c) 255.255.255.0',
+          'd) 255.255.255.255'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) 255.255.255.0</strong> (<code>/24</code> — first 24 bits for network, last 8 bits for host).'
+      },
+      {
+        id: 24,
+        type: 'MCQ',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which network device forwards packets between different networks?',
+        options: [
+          'a) Hub',
+          'b) Switch',
+          'c) Router',
+          'd) Repeater'
+        ],
+        correctIndex: 2,
+        answer: '<strong>c) Router</strong> — Operates at Layer 3 to route IP packets between distinct networks.'
+      },
+      {
+        id: 25,
+        type: 'MCQ',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'What does DNS stand for?',
+        options: [
+          'a) Data Naming Service',
+          'b) Domain Name System',
+          'c) Dynamic Network Service',
+          'd) Digital Naming System'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) Domain Name System</strong>.'
+      },
+      {
+        id: 26,
+        type: 'MCQ',
+        topic: 'Processes, Threads & Caching',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which memory is volatile?',
+        options: [
+          'a) ROM',
+          'b) Hard Disk',
+          'c) SSD',
+          'd) RAM'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) RAM</strong> — Random Access Memory loses its stored contents when electrical power is removed.'
+      },
+      {
+        id: 27,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which command is used to display the current IP configuration in Windows?',
+        options: [
+          'a) ping',
+          'b) ipconfig',
+          'c) netstat',
+          'd) tracert'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) ipconfig</strong>.'
+      },
+      {
+        id: 28,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Which OSI layer is responsible for end-to-end communication?',
+        options: [
+          'a) Transport Layer',
+          'b) Session Layer',
+          'c) Application Layer',
+          'd) Physical Layer'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) Transport Layer</strong> (Layer 4 provides end-to-end process-to-process delivery, segmentation, and flow/error control).'
+      },
+      {
+        id: 29,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Fall 22/23',
+        highYield: false,
+        question: 'What is an operating system?',
+        options: [
+          'a) Interface between hardware and application programs',
+          'b) Collection of programs that manages hardware resources',
+          'c) System service provider to the application programs',
+          'd) All of the mentioned'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) All of the mentioned</strong>.'
+      },
+      {
+        id: 30,
+        type: 'MCQ',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Fall 22/23',
+        highYield: false,
+        question: 'To access the services of the operating system, the interface is provided by the:',
+        options: [
+          'a) Library',
+          'b) System calls',
+          'c) Assembly instructions',
+          'd) API'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) System calls</strong> — System calls provide the controlled interface for user programs to request OS kernel services.'
+      },
+      {
+        id: 31,
+        type: 'MCQ',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Fall 22/23',
+        highYield: false,
+        question: 'Which address is composed of 128 bits?',
+        options: [
+          'a) MAC',
+          'b) IPX',
+          'c) IPv4',
+          'd) IPv6'
+        ],
+        correctIndex: 3,
+        answer: '<strong>d) IPv6</strong> — IPv6 uses 128 bits (MAC is 48 bits, IPv4 is 32 bits).'
+      },
+      {
+        id: 32,
+        type: 'MCQ',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Fall 22/23',
+        highYield: false,
+        question: 'Which of the following standards represents the WLAN (Wireless LAN)?',
+        options: [
+          'a) IEEE 802.11',
+          'b) IEEE 802.15',
+          'c) IEEE 802.16',
+          'd) IEEE 802.21'
+        ],
+        correctIndex: 0,
+        answer: '<strong>a) IEEE 802.11</strong> (Wi-Fi standard).'
+      },
+      {
+        id: 33,
+        type: 'MCQ',
+        topic: 'Networking & OSI Model',
+        source: 'Fall 22/23',
+        highYield: false,
+        question: 'Exhibit: PC1 shows IP Address 192.168.1.95, Subnet Mask 255.255.255.0, Default Gateway 192.168.1.254. Topology: PC1 → Switch1 → Router1 → Cloud → Router2 → Switch2 → PC2. What is a description of the default gateway address?',
+        options: [
+          'a) It is the IP address of the Router1 interface that connects the company to the Internet',
+          'b) It is the IP address of the Router1 interface that connects the PC1 LAN to Router1',
+          'c) It is the IP address of Switch1 that connects PC1 to other devices on the same LAN',
+          'd) It is the IP address of the ISP network device located in the cloud'
+        ],
+        correctIndex: 1,
+        answer: '<strong>b) It is the IP address of the Router1 interface that connects the PC1 LAN to Router1</strong> (must be on the same <code>192.168.1.0/24</code> subnet as PC1).'
+      },
+
+      // ==================== SECTION B: MATCHING QUESTIONS (34-41) ====================
+      {
+        id: 34,
+        type: 'Matching',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Spring 23/24, Fall 23/24',
+        highYield: true,
+        question: 'Match network device types with their descriptions:',
+        pairs: [
+          { left: 'Router', right: 'Connects multiple networks and forwards packets based on IP addresses.' },
+          { left: 'Switch', right: 'Connects devices within a network and forwards packets based on MAC addresses.' },
+          { left: 'Firewall', right: 'Protects the network by filtering and controlling network traffic based on predefined security policies.' }
+        ],
+        answer: `<ul>
+          <li><strong>Router</strong> → Connects multiple networks and forwards packets based on IP addresses.</li>
+          <li><strong>Switch</strong> → Connects devices within a network and forwards packets based on MAC addresses.</li>
+          <li><strong>Firewall</strong> → Protects the network by filtering and controlling network traffic based on predefined security policies.</li>
+        </ul>`
+      },
+      {
+        id: 35,
+        type: 'Matching',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Spring 23/24, Fall 23/24',
+        highYield: true,
+        question: 'Match IP address classes with their address ranges:',
+        pairs: [
+          { left: 'Class A', right: 'Range: 0.0.0.0 to 127.0.0.0' },
+          { left: 'Class B', right: 'Range: 128.0.0.0 to 191.255.0.0' },
+          { left: 'Class C', right: 'Range: 192.0.0.0 to 223.255.255.0' }
+        ],
+        answer: `<ul>
+          <li><strong>Class A</strong> → Range: <code>0.0.0.0 to 127.0.0.0</code></li>
+          <li><strong>Class B</strong> → Range: <code>128.0.0.0 to 191.255.0.0</code></li>
+          <li><strong>Class C</strong> → Range: <code>192.0.0.0 to 223.255.255.0</code></li>
+        </ul>`
+      },
+      {
+        id: 36,
+        type: 'Matching',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Spring 23/24, Fall 23/24',
+        highYield: true,
+        question: 'Match IPv6 address types with their descriptions:',
+        pairs: [
+          { left: 'Link-local', right: 'Used for communication within a local network segment.' },
+          { left: 'Global Unicast', right: 'Routable IPv6 addresses assigned to devices for global communication.' },
+          { left: 'Multicast', right: 'Used for one-to-many communication to a group of devices.' },
+          { left: 'EUI-64', right: 'A method used to automatically configure IPv6 host addresses.' }
+        ],
+        answer: `<ul>
+          <li><strong>Link-local</strong> → Used for communication within a local network segment.</li>
+          <li><strong>Global Unicast</strong> → Routable IPv6 addresses assigned to devices for global communication.</li>
+          <li><strong>Multicast</strong> → Used for one-to-many communication to a group of devices.</li>
+          <li><strong>EUI-64</strong> → A method used to automatically configure IPv6 host addresses.</li>
+        </ul>`
+      },
+      {
+        id: 37,
+        type: 'Matching',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Summer 23/24',
+        highYield: false,
+        question: 'Match Cisco IOS commands with their primary purpose:',
+        pairs: [
+          { left: 'show ip route', right: 'Displays the active routing table on the device' },
+          { left: 'configure term', right: 'Enters global configuration mode' },
+          { left: 'interface eth0', right: 'Configures the specified Ethernet interface' },
+          { left: 'wr mem', right: 'Saves current running configuration to startup configuration' }
+        ],
+        answer: `<ul>
+          <li><code>show ip route</code> → Displays the active routing table on the device</li>
+          <li><code>configure term</code> → Enters global configuration mode</li>
+          <li><code>interface eth0</code> → Configures the specified Ethernet interface</li>
+          <li><code>wr mem</code> → Saves current running configuration to startup configuration</li>
+        </ul>`
+      },
+      {
+        id: 38,
+        type: 'Matching',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 23/24',
+        highYield: false,
+        question: 'Match network protocols with their primary function:',
+        pairs: [
+          { left: 'DHCP', right: 'Automatically assigns IP addresses to devices on the network' },
+          { left: 'DNS', right: 'Translates human-readable domain names to IP addresses' },
+          { left: 'ICMP', right: 'Allows devices to report errors and exchange control messages' },
+          { left: 'FTP', right: 'Provides a way to transfer files between devices on the network' }
+        ],
+        answer: `<ul>
+          <li><strong>DHCP</strong> → Automatically assigns IP addresses to devices on the network</li>
+          <li><strong>DNS</strong> → Translates human-readable domain names to IP addresses</li>
+          <li><strong>ICMP</strong> → Allows devices to report errors and exchange control messages</li>
+          <li><strong>FTP</strong> → Provides a way to transfer files between devices on the network</li>
+        </ul>`
+      },
+      {
+        id: 39,
+        type: 'Matching',
+        topic: 'Networking & OSI Model',
+        source: 'Revision, Mock 2, Fall 22/23',
+        highYield: true,
+        question: 'Identify which OSI Reference Model layer matches each functional description:',
+        pairs: [
+          { left: 'Provides a data path or route', right: 'Network Layer (Layer 3)' },
+          { left: 'Segments, transfers and reassembles data', right: 'Transport Layer (Layer 4)' },
+          { left: 'Bit transmission', right: 'Physical Layer (Layer 1)' },
+          { left: 'Exchanges frames between devices', right: 'Data Link Layer (Layer 2)' },
+          { left: 'Data representation', right: 'Presentation Layer (Layer 6)' }
+        ],
+        answer: `<ul>
+          <li>Provides a data path or route → <strong>Network Layer (Layer 3)</strong></li>
+          <li>Segments, transfers and reassembles data → <strong>Transport Layer (Layer 4)</strong></li>
+          <li>Bit transmission → <strong>Physical Layer (Layer 1)</strong></li>
+          <li>Exchanges frames between devices → <strong>Data Link Layer (Layer 2)</strong></li>
+          <li>Data representation → <strong>Presentation Layer (Layer 6)</strong></li>
+        </ul>`
+      },
+      {
+        id: 40,
+        type: 'Matching',
+        topic: 'Cloud & Virtualization',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Match each technology/concept with its role:',
+        pairs: [
+          { left: 'IaaS (Infrastructure as a Service)', right: 'Cloud offering where provider supplies IT managers access to physical/virtualized compute, storage, and network resources.' },
+          { left: 'Fog Computing', right: 'Processes data closer to the network edge, reducing burden on networks and enhancing real-time decision-making.' },
+          { left: 'Vishing', right: 'Social engineering utilizing Voice over IP (VoIP) technology to deceive victims into releasing confidential info.' },
+          { left: 'Microkernel', right: 'OS structure moving functions from kernel into user space, with module communication via message passing.' }
+        ],
+        answer: `<ul>
+          <li><strong>IaaS (Infrastructure as a Service)</strong> → Cloud offering where provider supplies IT managers access to physical/virtualized compute, storage, and network resources.</li>
+          <li><strong>Fog Computing</strong> → Processes data closer to the network edge, reducing burden on networks and enhancing real-time decision-making.</li>
+          <li><strong>Vishing</strong> → Social engineering utilizing Voice over IP (VoIP) technology to deceive victims into releasing confidential info.</li>
+          <li><strong>Microkernel</strong> → OS structure moving functions from kernel into user space, with module communication via message passing.</li>
+        </ul>`
+      },
+      {
+        id: 41,
+        type: 'Matching',
+        topic: 'Networking & OSI Model',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Match the networking concept with its definition:',
+        pairs: [
+          { left: 'SaaS', right: 'Cloud service model providing software applications over the internet on a subscription basis.' },
+          { left: 'HTTP', right: 'Protocol used to transfer web pages from a server to a client browser.' },
+          { left: 'IPv6', right: '128-bit Internet Protocol address designed to replace IPv4.' },
+          { left: 'Twisted Pair Cable', right: 'Network cable consisting of pairs of insulated copper wires twisted together to reduce interference.' },
+          { left: 'Firewall', right: 'Network security device monitoring and controlling incoming/outgoing traffic based on security rules.' }
+        ],
+        answer: `<ul>
+          <li><strong>SaaS</strong> → Cloud service model providing software applications over the internet on a subscription basis.</li>
+          <li><strong>HTTP</strong> → Protocol used to transfer web pages from a server to a client browser.</li>
+          <li><strong>IPv6</strong> → 128-bit Internet Protocol address designed to replace IPv4.</li>
+          <li><strong>Twisted Pair Cable</strong> → Network cable consisting of pairs of insulated copper wires twisted together to reduce interference.</li>
+          <li><strong>Firewall</strong> → Network security device monitoring and controlling incoming/outgoing traffic based on security rules.</li>
+        </ul>`
+      },
+
+      // ==================== SECTION C: COMPARE & CONTRAST QUESTIONS (42-64) ====================
+      {
+        id: 42,
+        type: 'Compare & Contrast',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 23/24, Summer 23/24, Fall 23/24',
+        highYield: true,
+        question: 'Compare between TCP and UDP.',
+        answer: `<ul>
+          <li><strong>TCP (Transmission Control Protocol):</strong> Connection-oriented (uses 3-way handshake), reliable delivery (acknowledgments, sequencing, retransmission), higher overhead/latency, used for web (HTTP/S), email, and file transfer.</li>
+          <li><strong>UDP (User Datagram Protocol):</strong> Connectionless (no handshake), unreliable/best-effort delivery, low-latency and loss-tolerating, enables fast process-to-process communication for streaming, VoIP, gaming, and DNS.</li>
+        </ul>`
+      },
+      {
+        id: 43,
+        type: 'Compare & Contrast',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Spring 23/24, Spring 25/26, Revision',
+        highYield: true,
+        question: 'Compare between IPv4 and IPv6 (and explain why IPv6 is needed).',
+        answer: `<ul>
+          <li><strong>IPv4:</strong> 32-bit address written in dotted-decimal notation (4 octets <code>0–255</code>, e.g., <code>192.168.1.1</code>); ~4.3 billion addresses (depleted due to global internet &amp; IoT growth); often relies on NAT.</li>
+          <li><strong>IPv6:</strong> 128-bit address written as 8 groups of 4 hexadecimal digits separated by colons; 340 undecillion addresses; eliminates NAT bottlenecks, improves routing efficiency, and includes enhancements like ICMPv6.</li>
+        </ul>`
+      },
+      {
+        id: 44,
+        type: 'Compare & Contrast',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 23/24',
+        highYield: false,
+        question: 'Compare between Bandwidth and Throughput.',
+        answer: `<ul>
+          <li><strong>Bandwidth:</strong> The theoretical maximum amount of data that can be transmitted over a network/channel in a given time (measured in bps, Kbps, Mbps, Gbps).</li>
+          <li><strong>Throughput:</strong> The actual real-world amount of data successfully transmitted over the network in a given time (always &le; bandwidth due to latency, congestion, and protocol overhead).</li>
+        </ul>`
+      },
+      {
+        id: 45,
+        type: 'Compare & Contrast',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Spring 23/24, Revision, Fall 22/23',
+        highYield: true,
+        question: 'Compare between Logical Topology and Physical Topology (and define network topology).',
+        answer: `<ul>
+          <li><strong>Network Topology:</strong> The arrangement or relationship of network devices and the interconnections between them.</li>
+          <li><strong>Physical Topology:</strong> Refers to the physical cabling and connections showing how end devices and infrastructure devices (routers, switches, APs) are physically interconnected.</li>
+          <li><strong>Logical Topology:</strong> Refers to the virtual path and way a network transfers frames/packets from one node to the next.</li>
+        </ul>`
+      },
+      {
+        id: 46,
+        type: 'Compare & Contrast',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 23/24, Makeup Spring 23/24, Summer 23/24, Revision, Fall 22/23, Fall 23/24',
+        highYield: true,
+        question: 'Compare and contrast Telnet and SSH.',
+        answer: `<ul>
+          <li><strong>SSH (Secure Shell — Port 22):</strong> Provides a secure, strongly encrypted remote management connection protecting both login credentials (username/password) and all transmitted session data.</li>
+          <li><strong>Telnet (Port 23):</strong> Legacy remote terminal protocol that transmits both login credentials and session data in insecure plaintext, making it vulnerable to eavesdropping. SSH should always replace Telnet.</li>
+        </ul>`
+      },
+      {
+        id: 47,
+        type: 'Compare & Contrast',
+        topic: 'Networking & OSI Model',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Compare between Dial-up Telephone and DSL internet connections.',
+        answer: `<ul>
+          <li><strong>DSL (Digital Subscriber Line):</strong> High-bandwidth, always-on internet over a telephone line split into 3 frequency channels (1 for voice, 2 for downloading and uploading data simultaneously).</li>
+          <li><strong>Dial-up Telephone:</strong> Inexpensive legacy connection using a standard phone line and modem to dial an ISP phone number; ties up the voice line and offers very low bandwidth unsuitable for large transfers.</li>
+        </ul>`
+      },
+      {
+        id: 48,
+        type: 'Compare & Contrast',
+        topic: 'Cloud & Virtualization',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Compare between Software as a Service (SaaS) and Platform as a Service (PaaS).',
+        answer: `<ul>
+          <li><strong>SaaS:</strong> Cloud provider hosts and manages complete end-user applications delivered over the internet (e.g., email, Microsoft 365, Google Workspace).</li>
+          <li><strong>PaaS:</strong> Cloud provider supplies developers with runtime environments, operating systems, databases, and development tools to build, test, and deploy custom applications.</li>
+        </ul>`
+      },
+      {
+        id: 49,
+        type: 'Compare & Contrast',
+        topic: 'Cloud & Virtualization',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Compare between Type 1 Hypervisor ("Bare Metal") and Type 2 Hypervisor ("Hosted").',
+        answer: `<ul>
+          <li><strong>Type 1 Hypervisor (Bare Metal):</strong> Installed directly onto physical server hardware with direct access to hardware resources; offers higher performance, efficiency, and security for enterprise data centers.</li>
+          <li><strong>Type 2 Hypervisor (Hosted):</strong> Runs as a software application on top of an existing host operating system (like Windows/macOS) to create and run guest VMs; easier for desktop/testing use but adds OS overhead.</li>
+        </ul>`
+      },
+      {
+        id: 50,
+        type: 'Compare & Contrast',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Compare between DNS and DHCP.',
+        answer: `<ul>
+          <li><strong>DNS (Domain Name System):</strong> The "phonebook of the Internet" that translates human-readable domain names (e.g., <code>google.com</code>) into numerical IP addresses.</li>
+          <li><strong>DHCP (Dynamic Host Configuration Protocol):</strong> Automatically assigns dynamic IP addresses, subnet masks, default gateways, and DNS server addresses to devices joining a network.</li>
+        </ul>`
+      },
+      {
+        id: 51,
+        type: 'Compare & Contrast',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Revision, Mock 2, Fall 22/23',
+        highYield: true,
+        question: 'What is the difference between Protection and Security in an OS?',
+        answer: `<ul>
+          <li><strong>Protection:</strong> Controls internal access of processes, programs, and users to system resources (files, memory, CPU) using authorization mechanisms; handles internal threats and simpler policy checks.</li>
+          <li><strong>Security:</strong> Defends the system as a whole against external and unauthorized access/attacks using authentication, certification, and encryption mechanisms.</li>
+        </ul>`
+      },
+      {
+        id: 52,
+        type: 'Compare & Contrast',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision, Mock 2, Fall 22/23',
+        highYield: true,
+        question: 'Distinguish between the Client–Server and Peer-to-Peer (P2P) models of distributed systems.',
+        answer: `<ul>
+          <li><strong>Client–Server Model:</strong> Strict role separation—dedicated centralized servers provide resources/services while clients request them; centralized administration and scalable, though the server is a single point of failure.</li>
+          <li><strong>Peer-to-Peer (P2P) Model:</strong> No strict server/client hierarchy—all nodes are equal peers that can act as both client and server simultaneously; decentralized and resilient to single-node outages.</li>
+        </ul>`
+      },
+      {
+        id: 53,
+        type: 'Compare & Contrast',
+        topic: 'Networking & OSI Model',
+        source: 'Revision, Mock 2',
+        highYield: true,
+        question: 'Explain the difference between Intranet and Extranet.',
+        answer: `<ul>
+          <li><strong>Intranet:</strong> A private network of LANs/WANs belonging to an organization, accessible exclusively by its internal employees/members with authorization.</li>
+          <li><strong>Extranet:</strong> An extension of an intranet that provides controlled, secure access to authorized external partners, suppliers, contractors, or customers who need specific organizational data.</li>
+        </ul>`
+      },
+      {
+        id: 54,
+        type: 'Compare & Contrast',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Compare between Coaxial cable and Fiber optic cable.',
+        answer: `<ul>
+          <li><strong>Coaxial Cable:</strong> Copper core surrounded by insulation and braided shielding; transmits electrical signals; lower bandwidth, shorter distance, and susceptible to EMI.</li>
+          <li><strong>Fiber Optic Cable:</strong> Glass or plastic core transmitting pulses of light; completely immune to electromagnetic interference (EMI), supports ultra-high bandwidth and very long distances, higher cost.</li>
+        </ul>`
+      },
+      {
+        id: 55,
+        type: 'Compare & Contrast',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Compare between POP3 and IMAP4.',
+        answer: `<ul>
+          <li><strong>POP3 (Post Office Protocol v3):</strong> Downloads emails from the mail server to a single local client device and typically deletes them from the server; poor multi-device synchronization.</li>
+          <li><strong>IMAP4 (Internet Message Access Protocol v4):</strong> Keeps emails stored and organized in folders directly on the mail server, synchronizing read/unread status across multiple devices.</li>
+        </ul>`
+      },
+      {
+        id: 56,
+        type: 'Compare & Contrast',
+        topic: 'Cloud & Virtualization',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Compare between Private cloud and Public cloud.',
+        answer: `<ul>
+          <li><strong>Private Cloud:</strong> Cloud infrastructure dedicated exclusively to a single organization (on-premises or hosted), offering maximum control, customization, and security compliance at higher cost.</li>
+          <li><strong>Public Cloud:</strong> Multi-tenant cloud services owned and operated by third-party providers (e.g., AWS, Azure, Google Cloud) shared across customers over the internet with pay-as-you-go scalability.</li>
+        </ul>`
+      },
+      {
+        id: 57,
+        type: 'Compare & Contrast',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Compare Malware and Spyware.',
+        answer: `<ul>
+          <li><strong>Malware:</strong> Umbrella term for any malicious software designed to infiltrate, damage, disrupt, or gain unauthorized access to a system (includes viruses, worms, trojans, ransomware, spyware).</li>
+          <li><strong>Spyware:</strong> A specific subcategory of malware that secretly monitors user activity (keystrokes, browsing, credentials) and exfiltrates sensitive data without user knowledge.</li>
+        </ul>`
+      },
+      {
+        id: 58,
+        type: 'Compare & Contrast',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Compare between DHCP and NAT.',
+        answer: `<ul>
+          <li><strong>DHCP:</strong> Assigns private/local IP configurations (IP address, subnet mask, default gateway, DNS) automatically to hosts inside a LAN.</li>
+          <li><strong>NAT:</strong> Translates private internal IP addresses into public IP addresses at the boundary router so internal devices can communicate over the internet.</li>
+        </ul>`
+      },
+      {
+        id: 59,
+        type: 'Compare & Contrast',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Compare Twisted-Pair cable and Fiber optic cable.',
+        answer: `<ul>
+          <li><strong>Twisted-Pair Cable:</strong> Pairs of insulated copper wires twisted together to reduce crosstalk/EMI; transmits electrical signals; inexpensive, flexible, up to ~100m.</li>
+          <li><strong>Fiber Optic Cable:</strong> Glass/plastic fibers carrying light signals; immune to EMI, far greater bandwidth and transmission distances, harder to terminate.</li>
+        </ul>`
+      },
+      {
+        id: 60,
+        type: 'Compare & Contrast',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Summer 25/26, Fall 23/24',
+        highYield: true,
+        question: 'Compare between User mode and Kernel mode in an Operating System.',
+        answer: `<ul>
+          <li><strong>User Mode (Mode bit = 1):</strong> Restricted execution mode for user applications; cannot execute privileged instructions or directly access hardware/I/O/memory tables—must request OS services via system calls.</li>
+          <li><strong>Kernel Mode (Mode bit = 0):</strong> Privileged supervisor mode for the OS kernel; has unrestricted access to all CPU instructions, memory, interrupts, and hardware devices.</li>
+        </ul>`
+      },
+      {
+        id: 61,
+        type: 'Compare & Contrast',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Compare between MAC address and IP address.',
+        answer: `<ul>
+          <li><strong>MAC Address:</strong> 48-bit physical/hardware address burned into the NIC (hexadecimal); operates at Data Link Layer (Layer 2) for local LAN frame delivery; permanent.</li>
+          <li><strong>IP Address:</strong> 32-bit (IPv4) or 128-bit (IPv6) logical address assigned by an admin or DHCP; operates at Network Layer (Layer 3) for end-to-end routing across networks; hierarchical and changeable.</li>
+        </ul>`
+      },
+      {
+        id: 62,
+        type: 'Compare & Contrast',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Compare GUI and CLI Interfaces.',
+        answer: `<ul>
+          <li><strong>GUI (Graphical User Interface):</strong> Visual interface using windows, icons, menus, and pointer; user-friendly and intuitive, consumes more system resources.</li>
+          <li><strong>CLI (Command-Line Interface):</strong> Text-based interface where users type commands; lightweight, fast, powerful for automation/scripting, requires memorizing commands.</li>
+        </ul>`
+      },
+      {
+        id: 63,
+        type: 'Compare & Contrast',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'Compare resource allocation in single-user vs. multi-user operating systems.',
+        answer: `<ul>
+          <li><strong>Single-User OS:</strong> Dedicated to one user; allocates resources primarily to maximize responsiveness and user convenience without complex isolation or multi-account quotas.</li>
+          <li><strong>Multi-User OS:</strong> Supports multiple simultaneous users; must enforce strict fairness, scheduling, memory protection, and quotas so users cannot interfere with or monopolize shared CPU, memory, and I/O resources.</li>
+        </ul>`
+      },
+      {
+        id: 64,
+        type: 'Compare & Contrast',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'Compare Electrical, Optical, and Wireless signal transmissions.',
+        answer: `<ul>
+          <li><strong>Electrical:</strong> Voltage pulses over copper media (UTP/Coax); low cost, prone to EMI/attenuation.</li>
+          <li><strong>Optical:</strong> Light pulses over glass/plastic fiber; immune to EMI, highest speed and distance.</li>
+          <li><strong>Wireless:</strong> Electromagnetic radio waves through air; supports mobility without cables, prone to interference and physical walls/obstacles.</li>
+        </ul>`
+      },
+
+      // ==================== SECTION D: SHORT ANSWER, SCENARIOS & CALCULATIONS (65-107) ====================
+      {
+        id: 65,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 23/24, Summer 23/24, Revision, Fall 22/23',
+        highYield: true,
+        question: 'Provide at least two advantages of multiprocessor systems.',
+        answer: `<ol>
+          <li><strong>Increased Throughput:</strong> More work completed in less time with shorter response times.</li>
+          <li><strong>Economy of Scale (Reduced Cost):</strong> Multiple processors share peripherals, mass storage, and power supplies, costing less than separate single-processor systems.</li>
+          <li><strong>Increased Reliability:</strong> Failure of one processor does not halt the entire system (graceful degradation / fault tolerance).</li>
+        </ol>`
+      },
+      {
+        id: 66,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 23/24, Makeup Spring 23/24, Summer 23/24, Revision',
+        highYield: true,
+        question: 'What are the three main purposes of an operating system?',
+        answer: `<ol>
+          <li>Provide an environment in which a user can execute programs conveniently and efficiently.</li>
+          <li>Allocate computer hardware resources (CPU, memory, storage, I/O) fairly and efficiently among competing tasks.</li>
+          <li>Act as a control program to supervise user program execution (preventing errors/improper use) and manage/control I/O devices.</li>
+        </ol>`
+      },
+      {
+        id: 67,
+        type: 'Short Answer & Scenarios',
+        topic: 'Cloud & Virtualization',
+        source: 'Spring 23/24, Summer 23/24',
+        highYield: true,
+        question: 'Explain the concept of virtualization in operating systems.',
+        answer: `Virtualization abstracts physical hardware so that <strong>multiple operating systems or virtual machine instances can run concurrently on a single physical host</strong>. It maximizes hardware resource utilization, reduces physical server costs, and provides strong isolation between OS instances.`
+      },
+      {
+        id: 68,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 23/24, Summer 23/24, Revision, Fall 22/23',
+        highYield: true,
+        question: 'How could a system be designed to allow a choice of operating systems from which to boot? What would the bootstrap program need to do?',
+        answer: `<ul>
+          <li>Each OS is installed in its own partition/location on disk.</li>
+          <li>During startup, firmware loads a <strong>boot manager</strong> stored at a known disk location instead of booting a single OS directly.</li>
+          <li>The boot manager: <strong>(1)</strong> displays a selection menu of available OSs to the user, <strong>(2)</strong> loads the chosen OS kernel (or falls back to a default OS after a timeout), and <strong>(3)</strong> transfers CPU control to that OS.</li>
+        </ul>`
+      },
+      {
+        id: 69,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Spring 23/24, Makeup Spring 23/24, Summer 23/24, Revision, Summer 25/26, Fall 22/23',
+        highYield: true,
+        question: 'How does multiprogramming increase CPU utilization? (Include memory layout diagram)',
+        answer: `<ul>
+          <li>Multiprogramming keeps multiple jobs/programs in <strong>primary memory (RAM)</strong> simultaneously (a subset of the disk job pool).</li>
+          <li>The OS picks one job to execute; whenever that job waits for an I/O operation, the OS immediately switches the CPU to another ready job in memory so the CPU is never idle as long as jobs exist.</li>
+        </ul>${SVG_MULTIPROGRAMMING}`
+      },
+      {
+        id: 70,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 23/24, Summer 23/24, Revision',
+        highYield: true,
+        question: 'What is the purpose of the command interpreter? Why is it usually separate from the kernel?',
+        answer: `<ul>
+          <li><strong>Purpose:</strong> Reads commands entered interactively by the user or from a script file and executes them by translating them into one or more OS system calls.</li>
+          <li><strong>Why separate:</strong> The command interpreter (shell/UI) changes frequently and varies across user preferences, whereas the core kernel remains stable and protected.</li>
+        </ul>`
+      },
+      {
+        id: 71,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Spring 23/24, Summer 23/24',
+        highYield: true,
+        question: 'Discuss the difference between user-level threads and kernel-level threads.',
+        answer: `<ul>
+          <li><strong>User-Level Threads:</strong> Managed entirely in user space by a thread library without kernel awareness; fast to create/switch, but if one thread blocks on a system call, the entire process blocks, and they cannot run in parallel across multiple CPU cores.</li>
+          <li><strong>Kernel-Level Threads:</strong> Managed and scheduled directly by the OS kernel; supports true parallel execution across multiple processors and prevents one blocked thread from stalling the whole process.</li>
+        </ul>`
+      },
+      {
+        id: 72,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 23/24, Summer 23/24, Revision, Fall 23/24',
+        highYield: true,
+        question: 'List five services provided by an operating system, explain how each creates convenience for users, and why user-level programs cannot safely provide them.',
+        answer: `<ol>
+          <li><strong>Program Execution:</strong> Loads programs into memory and runs them; user programs cannot be trusted to fairly schedule CPU time.</li>
+          <li><strong>I/O Operations:</strong> Translates simple user requests into complex low-level device controller commands; user programs cannot be trusted to access hardware safely or exclusively.</li>
+          <li><strong>File-System Manipulation:</strong> Manages file creation, deletion, block allocation, naming, and permissions; user programs could corrupt free block lists or bypass access protections.</li>
+          <li><strong>Communications:</strong> Handles packetization, routing, ordering, and network interface sharing; user programs could intercept other processes' packets or collide on network hardware.</li>
+          <li><strong>Error Detection:</strong> Monitors hardware transfers and storage consistency globally; individual user programs lack system-wide visibility to catch hardware/disk errors.</li>
+        </ol>`
+      },
+      {
+        id: 73,
+        type: 'Short Answer & Scenarios',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Explain the three Hierarchical Network Design layers.',
+        answer: `<ol>
+          <li><strong>Access Layer:</strong> Provides direct network connectivity to end hosts (PCs, printers, IP phones) within a local Ethernet network.</li>
+          <li><strong>Distribution Layer:</strong> Aggregates Access Layer switches, interconnects smaller local networks, and enforces routing/security policies.</li>
+          <li><strong>Core Layer:</strong> High-speed backbone providing fast, redundant switching/routing between Distribution Layer devices.</li>
+        </ol>`
+      },
+      {
+        id: 74,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Makeup Spring 23/24, Fall 23/24',
+        highYield: true,
+        question: 'Explain the function of the Bootstrap program.',
+        answer: `A small, simple piece of code stored in non-volatile firmware (ROM/UEFI) that runs when the computer powers on or reboots; it <strong>initializes CPU registers, device controllers, and memory, locates the OS kernel on disk, loads it into RAM, and starts execution</strong>.`
+      },
+      {
+        id: 75,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'Explain the factors to consider when choosing a storage device from the storage device hierarchy.',
+        answer: `Key trade-off factors include <strong>speed (access time / transfer rate)</strong>, <strong>storage capacity</strong>, <strong>cost per bit</strong>, <strong>volatility</strong> (whether data persists without power), <strong>reliability</strong>, and specific application performance requirements.`
+      },
+      {
+        id: 76,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'List three different Types of System Calls.',
+        answer: `Any three of the 6 categories: <strong>(1) Process control</strong>, <strong>(2) File management</strong>, <strong>(3) Device management</strong>, <strong>(4) Information maintenance</strong>, <strong>(5) Communications</strong>, <strong>(6) Protection</strong>.`
+      },
+      {
+        id: 77,
+        type: 'Short Answer & Scenarios',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Makeup Spring 23/24, Spring 25/26',
+        highYield: true,
+        question: 'List and explain four common security threats and vulnerabilities that networks face, and how they can be mitigated.',
+        answer: `<ol>
+          <li><strong>Unauthorized Access:</strong> Intruders gaining access to network resources &rarr; Mitigate with strong authentication (MFA), RBAC, and strong password policies.</li>
+          <li><strong>Malware Infections:</strong> Viruses, worms, or ransomware compromising hosts &rarr; Mitigate with updated antivirus/EDR, OS patching, and email filtering.</li>
+          <li><strong>Denial of Service (DoS/DDoS):</strong> Flooding network resources to disrupt availability &rarr; Mitigate with firewalls, rate limiting, and intrusion prevention systems (IPS).</li>
+          <li><strong>Data Interception / Breaches &amp; Social Engineering:</strong> Eavesdropping on sensitive traffic or tricking employees &rarr; Mitigate with strong encryption (HTTPS/SSH/VPN), network segmentation, and security awareness training.</li>
+        </ol>`
+      },
+      {
+        id: 78,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Makeup Spring 23/24',
+        highYield: false,
+        question: 'What is the purpose of the Process Control Block (PCB)?',
+        answer: `The PCB is a kernel data structure maintained for each individual process that stores its execution context—including <strong>process state (ready, running, waiting), program counter, CPU register values, CPU scheduling priority, memory-management pointers, and open I/O status</strong>—enabling seamless context switching.`
+      },
+      {
+        id: 79,
+        type: 'Short Answer & Scenarios',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 23/24',
+        highYield: false,
+        question: 'Explain the purpose of the TCP three-way handshake.',
+        answer: `<ol>
+          <li>Synchronizes Initial Sequence Numbers (ISN) between sender and receiver (<code>SYN &rarr; SYN-ACK &rarr; ACK</code>) to track every byte exchanged.</li>
+          <li>Confirms both devices are active and ready to transmit and receive data.</li>
+          <li>Negotiates initial connection parameters such as Maximum Segment Size (MSS) and receive window size.</li>
+        </ol>`
+      },
+      {
+        id: 80,
+        type: 'Short Answer & Scenarios',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Summer 23/24',
+        highYield: false,
+        question: 'What is the purpose of Address Resolution Protocol (ARP)?',
+        answer: `ARP maps a known <strong>logical IPv4 address (Layer 3)</strong> to its corresponding <strong>physical MAC address (Layer 2)</strong> on a local Ethernet network so data frames can be properly addressed and delivered to the destination NIC.`
+      },
+      {
+        id: 81,
+        type: 'Short Answer & Scenarios',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Makeup Spring 23/24, Summer 23/24',
+        highYield: true,
+        question: 'Explain the concept and purpose of Network Address Translation (NAT).',
+        answer: `Implemented on edge routers/gateways, NAT translates <strong>private internal IPv4 addresses into public IPv4 addresses</strong> (and vice versa). It allows many internal hosts to share a single public IP, conserves scarce IPv4 addresses, and improves security by hiding internal network addressing from the public internet.`
+      },
+      {
+        id: 82,
+        type: 'Short Answer & Scenarios',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Revision, Fall 22/23',
+        highYield: true,
+        question: 'Why is there a need for a router in a network?',
+        answer: `A router connects separate IP networks (e.g., LAN to WAN/Internet), examines destination IP addresses to determine the optimal path, forwards packets across networks, and divides broadcast domains.`
+      },
+      {
+        id: 83,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'What is the main difficulty a programmer must overcome in writing an operating system for a real-time environment?',
+        answer: `Guaranteeing deterministic execution within <strong>strict, fixed time constraints (deadlines)</strong>. If task scheduling or interrupt handling causes response times to exceed the deadline, the real-time system fails or breaks down.`
+      },
+      {
+        id: 84,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'How does the distinction between kernel mode and user mode function as a rudimentary form of protection?',
+        answer: `Critical instructions (timer modification, interrupt disabling, memory clearing, direct I/O access) are designated as <strong>privileged</strong> and can only execute when the CPU hardware mode bit is set to <strong>kernel mode</strong>. User programs execute in restricted <strong>user mode</strong>, preventing them from corrupting the OS or hardware.`
+      },
+      {
+        id: 85,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'Which of the following instructions should be privileged? (Set value of timer, Read the clock, Clear memory, Issue a trap instruction, Turn off interrupts, Modify entries in device-status table, Switch from user to kernel mode, Access I/O device)',
+        answer: `<ul>
+          <li><strong>Privileged (Kernel Mode Only):</strong> Set value of timer, Clear memory, Turn off interrupts, Modify entries in device-status table, Access I/O device.</li>
+          <li><strong>Non-Privileged (Allowed in User Mode):</strong> Read the clock, Issue a trap instruction, Switch from user to kernel mode (initiated via trap).</li>
+        </ul>`
+      },
+      {
+        id: 86,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Revision, Fall 23/24',
+        highYield: true,
+        question: 'Give two reasons why caches are useful. What problems do they solve? What problems do they cause? If a cache can be made as large as a disk, why not eliminate the disk?',
+        answer: `<ul>
+          <li><strong>Usefulness &amp; Problem Solved:</strong> Caches act as high-speed intermediate buffers between fast components (CPU) and slower storage/memory, eliminating speed mismatch bottlenecks when frequently used data is found in cache.</li>
+          <li><strong>Problem Caused:</strong> Cache coherency/consistency—updating data in one cache requires invalidating or updating copies in main memory and other processor caches.</li>
+          <li><strong>Why not replace disk:</strong> A cache can only replace a disk if <strong>(a)</strong> it is <strong>non-volatile</strong> (retains data when power is lost) and <strong>(b)</strong> it is <strong>economically affordable</strong> at disk capacities.</li>
+        </ul>`
+      },
+      {
+        id: 87,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'What is the purpose of system calls?',
+        answer: `System calls provide the <strong>controlled programming interface</strong> that allows user-level processes to request privileged services (file I/O, process creation, network access) from the operating system kernel.`
+      },
+      {
+        id: 88,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'What is the purpose of the command interpreter? Why is it usually separate from the kernel? (Revision Set)',
+        answer: `It reads and executes commands from users or command files by converting them into system calls. It is separate from the kernel because user interfaces and shells change frequently while the kernel stays compact and stable.`
+      },
+      {
+        id: 89,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'What is the main advantage and main disadvantage of the layered approach to OS system design?',
+        answer: `<ul>
+          <li><strong>Advantage:</strong> High modularity—each layer uses only lower-layer functions, making debugging, testing, and maintenance much easier since bugs are isolated to specific layers.</li>
+          <li><strong>Disadvantage:</strong> Performance overhead caused by requests traversing multiple layers, plus difficulty cleanly defining layer dependencies.</li>
+        </ul>`
+      },
+      {
+        id: 90,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Revision',
+        highYield: false,
+        question: 'Why do some systems store the operating system in firmware, while others store it on disk?',
+        answer: `Embedded systems and specialized hardware devices often lack a hard disk or file system; therefore, their OS must be permanently stored in <strong>non-volatile firmware (ROM/Flash)</strong>. General-purpose computers store the OS on <strong>disk</strong> for large capacity and easy updates.`
+      },
+      {
+        id: 91,
+        type: 'Short Answer & Scenarios',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Revision',
+        highYield: false,
+        question: 'Within an Ethernet network, how many bits are in a MAC address, and at which OSI layer is the LLC sublayer located?',
+        answer: `<ul>
+          <li>A MAC address is <strong>48 bits</strong> (6 bytes / 12 hexadecimal digits).</li>
+          <li>The Logical Link Control (<strong>LLC</strong>) sublayer is located in the <strong>Data Link Layer (Layer 2)</strong>.</li>
+        </ul>`
+      },
+      {
+        id: 92,
+        type: 'Short Answer & Scenarios',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26, Fall 23/24',
+        highYield: true,
+        question: 'Scenario: A small business with 10 employees is setting up their first network (workstations, printers, servers) and wants to minimize configuration errors. How should they assign IP addresses, and what equipment is necessary?',
+        answer: `<ul>
+          <li><strong>IP Assignment:</strong> Use <strong>DHCP</strong> for employee workstations/laptops to automate IP assignment and prevent IP conflicts/typos, while assigning <strong>Static IP addresses</strong> (or DHCP reservations) to servers and printers so users can reliably locate them.</li>
+          <li><strong>Necessary Equipment:</strong> An <strong>Ethernet Switch</strong> (connects wired LAN devices), a <strong>Router</strong> (connects LAN to the internet/ISP and provides DHCP/NAT), a <strong>Wireless Access Point (WAP)</strong> (for Wi-Fi devices), and Cat5e/Cat6 cabling.</li>
+        </ul>`
+      },
+      {
+        id: 93,
+        type: 'Short Answer & Scenarios',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26, Summer 25/26',
+        highYield: true,
+        question: 'Explain Unicast, Broadcast, and Multicast transmission each with an example diagram.',
+        answer: `<ul>
+          <li><strong>Unicast (One-to-One):</strong> Data is sent from a single source host to one specific destination IP/MAC address.</li>
+          <li><strong>Broadcast (One-to-All):</strong> Data is sent from one source host to every device on the local network segment (e.g., <code>255.255.255.255</code> / <code>FF:FF:FF:FF:FF:FF</code>).</li>
+          <li><strong>Multicast (One-to-Many Group):</strong> Data is sent from one source host to a specific subscribed group of receivers (Class D <code>224.0.0.0–239.255.255.255</code>), conserving bandwidth.</li>
+        </ul>${SVG_TRANSMISSIONS}`
+      },
+      {
+        id: 94,
+        type: 'Short Answer & Scenarios',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Name and define three distinct types of malicious software (malware).',
+        answer: `<ol>
+          <li><strong>Virus:</strong> Malicious code that attaches itself to clean executable files/programs and spreads when the infected file is executed.</li>
+          <li><strong>Worm:</strong> Standalone self-replicating malware that spreads automatically across networks by exploiting vulnerabilities without human interaction.</li>
+          <li><strong>Ransomware (or Trojan Horse):</strong> Ransomware encrypts a victim's files and demands payment for decryption; a Trojan disguises itself as legitimate software to trick users into installing it.</li>
+        </ol>`
+      },
+      {
+        id: 95,
+        type: 'Short Answer & Scenarios',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Spring 25/26, Summer 25/26',
+        highYield: true,
+        question: 'Explain the purpose of port numbers in network communication and define the three categories assigned by ICANN.',
+        answer: `<ul>
+          <li><strong>Purpose:</strong> Port numbers (16-bit integers, <code>0–65535</code>) identify specific applications/services on a host so the Transport Layer (TCP/UDP) can multiplex and deliver data to the right process.</li>
+          <li><strong>Three ICANN Categories:</strong>
+            <ol>
+              <li><strong>Well-Known Ports (0 – 1023):</strong> Reserved for standard system/network services (HTTP 80, HTTPS 443, SSH 22, DNS 53).</li>
+              <li><strong>Registered Ports (1024 – 49151):</strong> Assigned to vendor applications and user-level network services.</li>
+              <li><strong>Dynamic / Private / Ephemeral Ports (49152 – 65535):</strong> Dynamically assigned by client operating systems for temporary outbound connections.</li>
+            </ol>
+          </li>
+        </ul>`
+      },
+      {
+        id: 96,
+        type: 'Short Answer & Scenarios',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Spring 25/26, Summer 25/26',
+        highYield: true,
+        question: 'Calculation: A company is assigned the IP address 192.168.45.12. (1) Identify its class, (2) Default subnet mask, (3) Network portion & host portion, (4) Maximum number of usable hosts supported by default.',
+        answer: `<ol>
+          <li><strong>Class:</strong> <strong>Class C</strong> (first octet <code>192</code> is in range 192–223).</li>
+          <li><strong>Default Subnet Mask:</strong> <code>255.255.255.0</code> (<code>/24</code>).</li>
+          <li><strong>Network &amp; Host Portions:</strong> Network portion = <code>192.168.45</code> (first 24 bits); Host portion = <code>.12</code> (last 8 bits).</li>
+          <li><strong>Maximum Usable Hosts:</strong> 2<sup>8</sup> &minus; 2 = 256 &minus; 2 = <strong>254 usable hosts</strong> (subtracting 1 network address and 1 broadcast address).</li>
+        </ol>`
+      },
+      {
+        id: 97,
+        type: 'Short Answer & Scenarios',
+        topic: 'Networking & OSI Model',
+        source: 'Spring 25/26, Fall 23/24',
+        highYield: true,
+        question: 'Explain how bandwidth influences network performance, and what are its primary units of measurement?',
+        answer: `<ul>
+          <li><strong>Influence:</strong> Higher bandwidth increases the maximum volume of data transmitted per second, reducing bottlenecks/latency, accelerating downloads, and supporting more simultaneous users and high-bitrate traffic.</li>
+          <li><strong>Units:</strong> Bits per second (<code>bps</code>), Kilobits per second (<code>Kbps</code>), Megabits per second (<code>Mbps</code>), Gigabits per second (<code>Gbps</code>), Terabits per second (<code>Tbps</code>).</li>
+        </ul>`
+      },
+      {
+        id: 98,
+        type: 'Short Answer & Scenarios',
+        topic: 'OS Fundamentals & Architecture',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'What is a microkernel, and what are its benefits?',
+        answer: `<ul>
+          <li><strong>Definition:</strong> An OS design that minimizes kernel-space code to essential primitives (IPC, basic scheduling, low-level memory) and runs file systems, drivers, and network stacks as user-space servers.</li>
+          <li><strong>Benefits:</strong> Higher reliability/fault isolation (driver crashes don't crash the kernel), easier extensibility and portability, and improved security.</li>
+        </ul>`
+      },
+      {
+        id: 99,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Spring 25/26, Summer 25/26',
+        highYield: true,
+        question: 'What is the purpose and function of a linker and a loader in an OS?',
+        answer: `<ul>
+          <li><strong>Linker:</strong> Combines compiled object modules and static libraries into a single executable binary file by resolving external references and symbol addresses.</li>
+          <li><strong>Loader:</strong> Reads the executable file from disk into primary memory (RAM), allocates memory space, sets up initial registers/stack, and starts execution.</li>
+        </ul>`
+      },
+      {
+        id: 100,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Spring 25/26',
+        highYield: false,
+        question: 'Define caching and state its benefits.',
+        answer: `Caching is storing copies of frequently accessed data in a smaller, faster temporary storage layer (such as CPU L1/L2/L3 cache or RAM buffer) closer to the processor. <strong>Benefits:</strong> dramatically lowers data access latency, boosts CPU/application throughput, and reduces contention on slower main memory or storage disks.`
+      },
+      {
+        id: 101,
+        type: 'Short Answer & Scenarios',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Contrast the security capabilities of WPA2 and WEP protocols in securing wireless networks (advantages and limitations of each).',
+        answer: `<ul>
+          <li><strong>WEP:</strong> Legacy security using weak RC4 stream cipher with static 40/104-bit keys. <em>Advantage:</em> Compatible with very old hardware. <em>Limitation:</em> Cryptographically broken—keys can be cracked in minutes; completely insecure.</li>
+          <li><strong>WPA2:</strong> Strong wireless standard using <strong>AES</strong> block cipher (CCMP) and secure 4-way handshake (Personal PSK or Enterprise 802.1X). <em>Advantage:</em> Strong confidentiality and integrity protection. <em>Limitation:</em> Higher CPU overhead than WEP and susceptible to weak-password brute force if a weak passphrase is used.</li>
+        </ul>`
+      },
+      {
+        id: 102,
+        type: 'Short Answer & Scenarios',
+        topic: 'Cybersecurity & Wireless',
+        source: 'Summer 25/26',
+        highYield: false,
+        question: 'Scenario: A family moves into a new house and wants to connect laptops, smartphones, a smart TV, and a printer with mobility throughout the house and easy addition of new devices. (a) Wired or wireless recommendation & justification, (b) Purpose of an SSID, (c) Two advantages of wireless networking in this scenario.',
+        answer: `<ul>
+          <li><strong>a) Recommendation:</strong> <strong>Wireless Network (Wi-Fi)</strong> via a wireless router, because it supports mobile devices (smartphones/laptops) moving freely across rooms without Ethernet wall cables and allows effortless onboarding of new devices.</li>
+          <li><strong>b) Purpose of SSID:</strong> The <strong>Service Set Identifier (SSID)</strong> is the unique network name broadcast by the wireless router so client devices can discover, identify, and connect to the correct home Wi-Fi network.</li>
+          <li><strong>c) Two Advantages:</strong> (1) <strong>Mobility &amp; flexibility</strong> anywhere within signal range; (2) <strong>Easy scalability &amp; clean setup</strong> with no physical cabling required when adding new devices.</li>
+        </ul>`
+      },
+      {
+        id: 103,
+        type: 'Short Answer & Scenarios',
+        topic: 'Protocols (TCP/UDP, DNS, DHCP, NAT, ARP, SSH)',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'How do protocols like TCP and IP work together to ensure reliable communication over a network?',
+        answer: `<strong>IP (Network Layer)</strong> handles logical addressing and routing packets across networks from source to destination (best-effort), while <strong>TCP (Transport Layer)</strong> breaks data into numbered segments, establishes a session via 3-way handshake, uses ACKs and timers to retransmit lost packets, and reassembles segments in order—delivering reliable end-to-end communication.`
+      },
+      {
+        id: 104,
+        type: 'Short Answer & Scenarios',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'How does an Ethernet switch forward data, and what information is stored in a MAC address table?',
+        answer: `<ul>
+          <li><strong>MAC Address Table Contents:</strong> Stores learned <strong>device MAC addresses</strong>, their associated <strong>switch port numbers</strong>, VLAN IDs, and aging timestamps.</li>
+          <li><strong>Forwarding Logic:</strong> Learns source MAC + incoming port into the table; looks up destination MAC—if present, forwards the frame <strong>only</strong> to that specific port (unicast); if unknown or broadcast/multicast, <strong>floods</strong> the frame out all ports except the source port.</li>
+        </ul>`
+      },
+      {
+        id: 105,
+        type: 'Short Answer & Scenarios',
+        topic: 'Processes, Threads & Caching',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'Explain process management and resource allocation in OS services.',
+        answer: `<ul>
+          <li><strong>Process Management:</strong> Creating and terminating processes, scheduling CPU time, context switching, synchronization, and inter-process communication (IPC).</li>
+          <li><strong>Resource Allocation:</strong> Fairly and efficiently distributing CPU cycles, RAM, file storage, and I/O devices among multiple concurrent users and processes.</li>
+        </ul>`
+      },
+      {
+        id: 106,
+        type: 'Short Answer & Scenarios',
+        topic: 'IP Addressing & Subnetting',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'Scenario: A medium-sized enterprise is running out of available IPv4 addresses due to growing IoT devices. What solution can they implement now, and what future-proofing steps should they take?',
+        answer: `<ul>
+          <li><strong>Immediate Solution:</strong> Deploy <strong>Private IPv4 addressing (RFC 1918)</strong> with <strong>NAT/PAT (Port Address Translation)</strong> and <strong>VLAN subnetting</strong> so thousands of internal IoT devices share a small pool of public IPv4 addresses.</li>
+          <li><strong>Future-Proofing Steps:</strong> Transition to <strong>IPv6 (Dual-Stack IPv4/IPv6)</strong> across core routers, firewalls, and IoT gateways to leverage IPv6's 128-bit address space and native scalability.</li>
+        </ul>`
+      },
+      {
+        id: 107,
+        type: 'Short Answer & Scenarios',
+        topic: 'Devices, Topologies & Cabling',
+        source: 'Fall 23/24',
+        highYield: false,
+        question: 'How do twisted-pair cables work, and what challenges do they face regarding interference?',
+        answer: `<ul>
+          <li><strong>Operation:</strong> Pairs of insulated copper wires are twisted together to carry balanced differential electrical signals; twisting cancels out electromagnetic fields between the wires.</li>
+          <li><strong>Interference Challenges:</strong> Vulnerable to external <strong>EMI/RFI</strong> (from motors, fluorescent lights, power lines) and internal <strong>Crosstalk</strong> between adjacent wire pairs over longer distances (mitigated by tighter twists or foil/braid shielding in STP).</li>
+        </ul>`
+      }
+    ];
+
+    // =========================================================================
+    // 3. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY = 'tm129_mta_study_state_v1';
+
+    let userState = {
+      masteredIds: [],
+      flaggedIds: []
+    };
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed.masteredIds)) userState.masteredIds = parsed.masteredIds;
+        if (Array.isArray(parsed.flaggedIds)) userState.flaggedIds = parsed.flaggedIds;
+      }
+    } catch (e) {
+      console.warn('Could not load saved study progress:', e);
+    }
+
+    function saveUserState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(userState));
+      } catch (e) {
+        console.warn('Could not save study progress:', e);
+      }
+      updateMasteryHeader();
+    }
+
+    // Active UI Filters & Mode State
+    let appState = {
+      mode: 'bank', // 'bank' | 'flashcards' | 'quiz'
+      search: '',
+      topic: 'All Topics',
+      type: 'ALL',
+      highYieldOnly: false,
+      unmasteredOrFlaggedOnly: false,
+      revealedIds: new Set(),
+
+      // Flashcards State
+      fcDeck: [],
+      fcIndex: 0,
+      fcFlipped: false,
+
+      // Quiz State
+      quizAnswers: {},      // { qId: selectedOptionIndex } for MCQ
+      matchingSelections: {}, // { qId: [selectedRight0, selectedRight1, ...] }
+      matchingChecked: {},    // { qId: boolean }
+      quizResults: {},      // { qId: true | false }
+      quizRetryOnly: false,
+      shuffledPairsCache: {} // { qId: shuffledRightOptionsArray }
+    };
+
+    // =========================================================================
+    // 4. FILTERING HELPERS
+    // =========================================================================
+    function getFilteredQuestions() {
+      const q = appState.search.trim().toLowerCase();
+      return QUESTIONS.filter(item => {
+        if (appState.topic !== 'All Topics' && item.topic !== appState.topic) return false;
+        if (appState.type !== 'ALL' && item.type !== appState.type) return false;
+        if (appState.highYieldOnly && !item.highYield) return false;
+        if (appState.unmasteredOrFlaggedOnly) {
+          const isMastered = userState.masteredIds.includes(item.id);
+          const isFlagged = userState.flaggedIds.includes(item.id);
+          if (isMastered && !isFlagged) return false;
+        }
+        if (q) {
+          const haystack = [
+            `#${item.id}`,
+            item.question,
+            item.topic,
+            item.source,
+            item.type,
+            ...(item.options || []),
+            ...(item.pairs ? item.pairs.map(p => `${p.left} ${p.right}`) : []),
+            item.answer.replace(/<[^>]*>/g, ' ')
+          ].join(' ').toLowerCase();
+          if (!haystack.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function resetFilters() {
+      appState.search = '';
+      appState.topic = 'All Topics';
+      appState.type = 'ALL';
+      appState.highYieldOnly = false;
+      appState.unmasteredOrFlaggedOnly = false;
+
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      document.getElementById('typeFilter').value = 'ALL';
+      updateToggleButtonsUI();
+      renderTopicPills();
+      syncAllViews(true);
+    }
+
+    // =========================================================================
+    // 5. HEADER & TOPIC PILLS RENDERING
+    // =========================================================================
+    function updateMasteryHeader() {
+      const total = QUESTIONS.length;
+      const masteredCount = userState.masteredIds.length;
+      const flaggedCount = userState.flaggedIds.length;
+      const pct = Math.round((masteredCount / total) * 100);
+
+      document.getElementById('masteryText').textContent = `Mastered ${masteredCount} / ${total} Questions`;
+      document.getElementById('masteryPercent').textContent = `${pct}%`;
+      document.getElementById('masteryBar').style.width = `${pct}%`;
+      document.getElementById('flaggedBadgeCount').textContent = `${flaggedCount} Flagged`;
+    }
+
+    function renderTopicPills() {
+      const container = document.getElementById('topicPillsContainer');
+      container.innerHTML = TOPICS.map(topic => {
+        const count = topic === 'All Topics'
+          ? QUESTIONS.length
+          : QUESTIONS.filter(q => q.topic === topic).length;
+        const isActive = appState.topic === topic;
+        const activeClasses = isActive
+          ? 'bg-sky-400/20 text-sky-300 border-sky-400/50 shadow-sm shadow-sky-500/10'
+          : 'bg-slate-950/60 text-slate-400 border-white/10 hover:text-slate-200 hover:border-white/20';
+
+        return `
+          <button
+            type="button"
+            data-topic="${topic}"
+            class="topic-pill px-3 py-1.5 rounded-xl text-xs font-medium border whitespace-nowrap transition flex items-center gap-1.5 ${activeClasses}"
+          >
+            <span>${topic}</span>
+            <span class="font-mono text-[11px] opacity-75">(${count})</span>
+          </button>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.topic-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          appState.topic = btn.dataset.topic;
+          renderTopicPills();
+          syncAllViews(true);
+        });
+      });
+    }
+
+    function updateToggleButtonsUI() {
+      const hyBtn = document.getElementById('highYieldToggle');
+      const umBtn = document.getElementById('unmasteredToggle');
+
+      if (appState.highYieldOnly) {
+        hyBtn.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500/20 border border-amber-400/50 text-amber-300 transition whitespace-nowrap';
+      } else {
+        hyBtn.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-slate-950/70 border border-white/10 text-slate-300 hover:border-amber-400/40 transition whitespace-nowrap';
+      }
+
+      if (appState.unmasteredOrFlaggedOnly) {
+        umBtn.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-500/20 border border-indigo-400/50 text-indigo-300 transition whitespace-nowrap';
+      } else {
+        umBtn.className = 'flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-slate-950/70 border border-white/10 text-slate-300 hover:border-indigo-400/40 transition whitespace-nowrap';
+      }
+    }
+
+    // =========================================================================
+    // 6. VIEW 1: STUDY BANK RENDERING
+    // =========================================================================
+    function getTypeBadgeStyle(type) {
+      switch (type) {
+        case 'MCQ': return 'bg-sky-500/15 text-sky-300 border-sky-400/30';
+        case 'Matching': return 'bg-purple-500/15 text-purple-300 border-purple-400/30';
+        case 'Compare & Contrast': return 'bg-indigo-500/15 text-indigo-300 border-indigo-400/30';
+        default: return 'bg-teal-500/15 text-teal-300 border-teal-400/30';
+      }
+    }
+
+    function renderStudyBank() {
+      const filtered = getFilteredQuestions();
+      const container = document.getElementById('questionsContainer');
+      document.getElementById('filteredCountLabel').textContent = `Showing ${filtered.length} of ${QUESTIONS.length} questions`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card rounded-2xl p-10 text-center">
+            <p class="text-slate-300 font-medium mb-3">No questions match your current search or filters.</p>
+            <button onclick="resetFilters()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30 hover:bg-sky-500/30 transition">
+              Reset All Filters
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const isRevealed = appState.revealedIds.has(item.id);
+        const isMastered = userState.masteredIds.includes(item.id);
+        const isFlagged = userState.flaggedIds.includes(item.id);
+
+        let optionsHtml = '';
+        if (item.type === 'MCQ' && item.options) {
+          optionsHtml = `
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${item.options.map((opt, idx) => {
+                const highlightCorrect = isRevealed && idx === item.correctIndex;
+                return `
+                  <div class="px-3.5 py-2 rounded-xl text-xs sm:text-sm border transition ${
+                    highlightCorrect
+                      ? 'bg-emerald-500/15 border-emerald-400/50 text-emerald-200 font-semibold'
+                      : 'bg-slate-950/60 border-white/10 text-slate-300'
+                  }">
+                    ${opt}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `;
+        } else if (item.type === 'Matching' && item.pairs) {
+          optionsHtml = `
+            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-white/10 space-y-1.5">
+                <div class="font-mono text-[11px] uppercase tracking-wider text-sky-400 mb-1">Terms / Prompts</div>
+                ${item.pairs.map((p, idx) => `<div class="text-slate-200"><span class="font-mono text-slate-500 mr-1.5">${idx + 1}.</span>${p.left}</div>`).join('')}
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-white/10 space-y-1.5">
+                <div class="font-mono text-[11px] uppercase tracking-wider text-indigo-400 mb-1">Descriptions (Shuffled Preview)</div>
+                ${[...item.pairs].reverse().map((p, idx) => `<div class="text-slate-300"><span class="font-mono text-slate-500 mr-1.5">${String.fromCharCode(65 + idx)}.</span>${p.right}</div>`).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <article class="glass-card rounded-2xl p-4 sm:p-5 ${isMastered ? 'border-emerald-500/30' : ''} ${isFlagged ? 'ring-1 ring-amber-400/30' : ''}">
+            <!-- Top Row: ID + Badges + Master/Flag Controls -->
+            <div class="flex flex-wrap items-start justify-between gap-2.5 mb-3">
+              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded-lg bg-slate-800 text-sky-300 border border-white/10">
+                  #${item.id}
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-lg border ${getTypeBadgeStyle(item.type)}">
+                  ${item.type}
+                </span>
+                <span class="text-xs font-medium px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-300 border border-white/10">
+                  ${item.topic}
+                </span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded-lg bg-slate-900/90 text-slate-400 border border-white/5">
+                  ${item.source}
+                </span>
+                ${item.highYield ? `
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-400/35">
+                    High-Yield 🔥
+                  </span>
+                ` : ''}
+              </div>
+
+              <!-- Mastered & Flag Actions -->
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button
+                  type="button"
+                  onclick="toggleFlagged(${item.id})"
+                  title="Flag for Review"
+                  class="px-2.5 py-1.5 rounded-xl text-xs font-medium border transition flex items-center gap-1 ${
+                    isFlagged
+                      ? 'bg-amber-500/20 border-amber-400/50 text-amber-300'
+                      : 'bg-slate-950/60 border-white/10 text-slate-400 hover:text-amber-300'
+                  }"
+                >
+                  <svg class="w-3.5 h-3.5" fill="${isFlagged ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                  </svg>
+                  <span class="hidden sm:inline">${isFlagged ? 'Flagged' : 'Flag'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onclick="toggleMastered(${item.id})"
+                  title="Mark Mastered"
+                  class="px-2.5 py-1.5 rounded-xl text-xs font-medium border transition flex items-center gap-1 ${
+                    isMastered
+                      ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-300'
+                      : 'bg-slate-950/60 border-white/10 text-slate-400 hover:text-emerald-300'
+                  }"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="hidden sm:inline">${isMastered ? 'Mastered' : 'Master'}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Text -->
+            <h3 class="text-sm sm:text-base font-semibold text-slate-100 leading-relaxed">
+              ${item.question}
+            </h3>
+
+            <!-- MCQ Options or Matching Preview -->
+            ${optionsHtml}
+
+            <!-- Show/Hide Answer Toggle & Drawer -->
+            <div class="mt-4 pt-3 border-t border-white/10">
+              <button
+                type="button"
+                onclick="toggleReveal(${item.id})"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
+                  isRevealed
+                    ? 'bg-slate-800 text-slate-200 border border-white/15'
+                    : 'bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 border border-sky-400/35 hover:from-sky-500/30 hover:to-indigo-500/30'
+                }"
+              >
+                <svg class="w-3.5 h-3.5 transition-transform ${isRevealed ? 'rotate-180' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+                ${isRevealed ? 'Hide Answer' : 'Show Answer'}
+              </button>
+
+              ${isRevealed ? `
+                <div class="mt-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-400/25 animate-reveal">
+                  <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-1.5">
+                    Verified Exam Answer
+                  </div>
+                  <div class="answer-rich text-xs sm:text-sm text-slate-100 leading-relaxed">
+                    ${item.answer}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Global Bank Actions
+    window.toggleReveal = function(id) {
+      if (appState.revealedIds.has(id)) {
+        appState.revealedIds.delete(id);
+      } else {
+        appState.revealedIds.add(id);
+      }
+      renderStudyBank();
+    };
+
+    window.toggleMastered = function(id) {
+      const idx = userState.masteredIds.indexOf(id);
+      if (idx === -1) {
+        userState.masteredIds.push(id);
+      } else {
+        userState.masteredIds.splice(idx, 1);
+      }
+      saveUserState();
+      syncAllViews(false);
+    };
+
+    window.toggleFlagged = function(id) {
+      const idx = userState.flaggedIds.indexOf(id);
+      if (idx === -1) {
+        userState.flaggedIds.push(id);
+      } else {
+        userState.flaggedIds.splice(idx, 1);
+      }
+      saveUserState();
+      syncAllViews(false);
+    };
+
+    // =========================================================================
+    // 7. VIEW 2: ACTIVE RECALL FLASHCARDS
+    // =========================================================================
+    function rebuildFlashcardDeck(resetIndex = true) {
+      appState.fcDeck = [...getFilteredQuestions()];
+      if (resetIndex) {
+        appState.fcIndex = 0;
+        appState.fcFlipped = false;
+      } else if (appState.fcIndex >= appState.fcDeck.length) {
+        appState.fcIndex = Math.max(0, appState.fcDeck.length - 1);
+      }
+    }
+
+    function renderFlashcards() {
+      const emptyEl = document.getElementById('flashcardEmptyState');
+      const workEl = document.getElementById('flashcardWorkspace');
+
+      if (appState.fcDeck.length === 0) {
+        emptyEl.classList.remove('hidden');
+        workEl.classList.add('hidden');
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+      workEl.classList.remove('hidden');
+
+      const card = appState.fcDeck[appState.fcIndex];
+      const isMastered = userState.masteredIds.includes(card.id);
+      const isFlagged = userState.flaggedIds.includes(card.id);
+
+      document.getElementById('fcCounter').textContent = `Card ${appState.fcIndex + 1} of ${appState.fcDeck.length}`;
+
+      document.getElementById('fcStatusBadges').innerHTML = `
+        ${isMastered ? '<span class="text-xs px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-medium">✓ Mastered</span>' : ''}
+        ${isFlagged ? '<span class="text-xs px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-400/40 font-medium">⚑ Flagged</span>' : ''}
+      `;
+
+      document.getElementById('fcMetaTags').innerHTML = `
+        <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded-lg bg-slate-800 text-sky-300 border border-white/10">#${card.id}</span>
+        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-lg border ${getTypeBadgeStyle(card.type)}">${card.type}</span>
+        <span class="text-xs px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-300 border border-white/10">${card.topic}</span>
+        ${card.highYield ? '<span class="text-xs font-semibold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-400/35">High-Yield 🔥</span>' : ''}
+      `;
+
+      document.getElementById('fcQuestionText').textContent = card.question;
+
+      // Options or Matching prompt preview on front
+      const optPreview = document.getElementById('fcOptionsPreview');
+      if (card.type === 'MCQ' && card.options) {
+        optPreview.innerHTML = card.options.map(opt => `
+          <div class="px-3.5 py-2 rounded-xl text-xs sm:text-sm bg-slate-950/70 border border-white/10 text-slate-300">
+            ${opt}
+          </div>
+        `).join('');
+      } else if (card.type === 'Matching' && card.pairs) {
+        optPreview.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 text-xs sm:text-sm text-slate-300 space-y-1">
+            <div class="font-mono text-[11px] uppercase text-sky-400 mb-1">Terms to Match:</div>
+            ${card.pairs.map((p, i) => `<div><span class="font-mono text-slate-500 mr-1.5">${i + 1}.</span>${p.left}</div>`).join('')}
+          </div>
+        `;
+      } else {
+        optPreview.innerHTML = '';
+      }
+
+      document.getElementById('fcAnswerText').innerHTML = card.answer;
+
+      // Front vs Back Visibility
+      const frontEl = document.getElementById('fcFrontContent');
+      const backEl = document.getElementById('fcBackContent');
+      const sideBadge = document.getElementById('fcSideIndicator');
+
+      if (appState.fcFlipped) {
+        frontEl.classList.add('hidden');
+        backEl.classList.remove('hidden');
+        sideBadge.textContent = 'Answer Back';
+        sideBadge.className = 'text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-400/30';
+      } else {
+        frontEl.classList.remove('hidden');
+        backEl.classList.add('hidden');
+        sideBadge.textContent = 'Question Front';
+        sideBadge.className = 'text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-white/10';
+      }
+
+      // Update Bottom Buttons
+      document.getElementById('fcFlagLabel').textContent = isFlagged ? 'Flagged' : 'Flag Review';
+      document.getElementById('fcMasterLabel').textContent = isMastered ? 'Mastered ✓' : 'Mark Mastered';
+    }
+
+    function flipFlashcard() {
+      if (appState.fcDeck.length === 0) return;
+      appState.fcFlipped = !appState.fcFlipped;
+      renderFlashcards();
+    }
+
+    function nextFlashcard() {
+      if (appState.fcDeck.length === 0) return;
+      appState.fcIndex = (appState.fcIndex + 1) % appState.fcDeck.length;
+      appState.fcFlipped = false;
+      renderFlashcards();
+    }
+
+    function prevFlashcard() {
+      if (appState.fcDeck.length === 0) return;
+      appState.fcIndex = (appState.fcIndex - 1 + appState.fcDeck.length) % appState.fcDeck.length;
+      appState.fcFlipped = false;
+      renderFlashcards();
+    }
+
+    function shuffleFlashcards() {
+      for (let i = appState.fcDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [appState.fcDeck[i], appState.fcDeck[j]] = [appState.fcDeck[j], appState.fcDeck[i]];
+      }
+      appState.fcIndex = 0;
+      appState.fcFlipped = false;
+      renderFlashcards();
+    }
+
+    // =========================================================================
+    // 8. VIEW 3: INTERACTIVE MCQ & MATCHING QUIZ ENGINE
+    // =========================================================================
+    function getShuffledRightsForMatching(item) {
+      if (!appState.shuffledPairsCache[item.id]) {
+        const rights = item.pairs.map(p => p.right);
+        for (let i = rights.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [rights[i], rights[j]] = [rights[j], rights[i]];
+        }
+        appState.shuffledPairsCache[item.id] = rights;
+      }
+      return appState.shuffledPairsCache[item.id];
+    }
+
+    function renderQuiz() {
+      // Base quiz pool comes from current topic/search/high-yield filters, restricted to MCQ & Matching
+      let quizItems = getFilteredQuestions().filter(q => q.type === 'MCQ' || q.type === 'Matching');
+
+      if (appState.quizRetryOnly) {
+        quizItems = quizItems.filter(q => appState.quizResults[q.id] === false);
+      }
+
+      // Scoreboard Calculations
+      const totalAnswered = Object.keys(appState.quizResults).length;
+      const totalCorrect = Object.values(appState.quizResults).filter(Boolean).length;
+      const incorrectIds = Object.keys(appState.quizResults).filter(id => appState.quizResults[id] === false);
+
+      document.getElementById('quizScoreDisplay').textContent = `${totalCorrect} / ${totalAnswered}`;
+      document.getElementById('incorrectCountSpan').textContent = incorrectIds.length;
+      const retryBtn = document.getElementById('retryIncorrectBtn');
+      retryBtn.disabled = incorrectIds.length === 0;
+      retryBtn.textContent = appState.quizRetryOnly
+        ? 'Show All Quiz Items'
+        : `Retry Incorrect (${incorrectIds.length})`;
+
+      document.getElementById('quizModeTag').textContent = appState.quizRetryOnly
+        ? `Retrying ${quizItems.length} Missed`
+        : `${quizItems.length} Quiz Items`;
+
+      const container = document.getElementById('quizContainer');
+
+      if (quizItems.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card rounded-2xl p-10 text-center">
+            <p class="text-slate-300 font-medium mb-3">
+              ${appState.quizRetryOnly
+                ? 'Awesome! No incorrect quiz questions remaining.'
+                : 'No MCQ or Matching questions match your current filters (try setting Question Type to "All Types").'}
+            </p>
+            <button onclick="${appState.quizRetryOnly ? 'exitRetryMode()' : 'resetFilters()'}" class="px-4 py-2 rounded-xl text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30 hover:bg-sky-500/30 transition">
+              ${appState.quizRetryOnly ? 'Back to All Quiz Items' : 'Reset Filters'}
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = quizItems.map(item => {
+        const hasAnswered = item.id in appState.quizResults;
+        const isCorrect = appState.quizResults[item.id] === true;
+
+        if (item.type === 'MCQ') {
+          const chosenIdx = appState.quizAnswers[item.id];
+          return `
+            <div class="glass-card rounded-2xl p-5 border ${
+              hasAnswered
+                ? (isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40')
+                : 'border-white/10'
+            }">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded-lg bg-slate-800 text-sky-300">#${item.id}</span>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-lg border ${getTypeBadgeStyle('MCQ')}">MCQ</span>
+                  <span class="text-xs text-slate-400">${item.topic}</span>
+                </div>
+                ${hasAnswered ? `
+                  <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                    isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
+                  }">
+                    ${isCorrect ? '✓ Correct' : '✕ Incorrect'}
+                  </span>
+                ` : ''}
+              </div>
+
+              <h3 class="text-sm sm:text-base font-semibold text-white mb-4 leading-relaxed">
+                ${item.question}
+              </h3>
+
+              <div class="space-y-2.5">
+                ${item.options.map((opt, idx) => {
+                  let btnClass = 'bg-slate-950/70 border-white/10 text-slate-200 hover:border-sky-400/50 hover:bg-sky-500/10';
+                  if (hasAnswered) {
+                    if (idx === item.correctIndex) {
+                      btnClass = 'bg-emerald-500/20 border-emerald-400/60 text-emerald-200 font-semibold';
+                    } else if (idx === chosenIdx) {
+                      btnClass = 'bg-rose-500/20 border-rose-400/60 text-rose-200';
+                    } else {
+                      btnClass = 'bg-slate-950/40 border-white/5 text-slate-500';
+                    }
+                  }
+                  return `
+                    <button
+                      type="button"
+                      onclick="submitMcqAnswer(${item.id}, ${idx})"
+                      class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm border transition flex items-center justify-between gap-3 ${btnClass}"
+                    >
+                      <span>${opt}</span>
+                      ${hasAnswered && idx === item.correctIndex ? '<span class="text-emerald-400 font-bold shrink-0">✓</span>' : ''}
+                      ${hasAnswered && idx === chosenIdx && idx !== item.correctIndex ? '<span class="text-rose-400 font-bold shrink-0">✕</span>' : ''}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+
+              ${hasAnswered ? `
+                <div class="mt-4 p-3.5 rounded-xl bg-slate-900/90 border border-white/10 text-xs sm:text-sm text-slate-200 answer-rich animate-reveal">
+                  ${item.answer}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        } else {
+          // Matching Question Interactive Builder
+          const shuffledRights = getShuffledRightsForMatching(item);
+          const selections = appState.matchingSelections[item.id] || [];
+          const isChecked = !!appState.matchingChecked[item.id];
+
+          return `
+            <div class="glass-card rounded-2xl p-5 border ${
+              isChecked
+                ? (isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40')
+                : 'border-white/10'
+            }">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded-lg bg-slate-800 text-purple-300">#${item.id}</span>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-lg border ${getTypeBadgeStyle('Matching')}">Interactive Matching</span>
+                  <span class="text-xs text-slate-400">${item.topic}</span>
+                </div>
+                ${isChecked ? `
+                  <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                    isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
+                  }">
+                    ${isCorrect ? '✓ All Pairs Matched!' : '✕ Review Missed Pairs'}
+                  </span>
+                ` : ''}
+              </div>
+
+              <h3 class="text-sm sm:text-base font-semibold text-white mb-4">
+                ${item.question}
+              </h3>
+
+              <div class="space-y-3">
+                ${item.pairs.map((pair, pIdx) => {
+                  const chosenVal = selections[pIdx] || '';
+                  const pairRight = isChecked && chosenVal === pair.right;
+                  const pairWrong = isChecked && chosenVal !== pair.right;
+
+                  return `
+                    <div class="p-3 rounded-xl bg-slate-950/70 border ${
+                      pairRight ? 'border-emerald-400/50 bg-emerald-500/10' :
+                      pairWrong ? 'border-rose-400/50 bg-rose-500/10' : 'border-white/10'
+                    } flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+                      <div class="text-xs sm:text-sm font-semibold text-sky-200 md:w-2/5">
+                        <span class="font-mono text-slate-500 mr-1.5">${pIdx + 1}.</span>${pair.left}
+                      </div>
+                      <div class="md:w-3/5">
+                        <select
+                          onchange="selectMatchingOption(${item.id}, ${pIdx}, this.value)"
+                          class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-sky-400"
+                        >
+                          <option value="">-- Select matching description --</option>
+                          ${shuffledRights.map(r => `
+                            <option value="${r.replace(/"/g, '&quot;')}" ${chosenVal === r ? 'selected' : ''}>
+                              ${r}
+                            </option>
+                          `).join('')}
+                        </select>
+                        ${pairWrong ? `
+                          <div class="mt-1.5 text-xs text-emerald-300">
+                            <strong>Correct:</strong> ${pair.right}
+                          </div>
+                        ` : ''}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+              <div class="mt-4 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onclick="checkMatchingQuestion(${item.id})"
+                  class="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-950 hover:opacity-95 transition shadow-md"
+                >
+                  Check Matches
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+    }
+
+    window.submitMcqAnswer = function(qId, optionIndex) {
+      const q = QUESTIONS.find(item => item.id === qId);
+      if (!q) return;
+      appState.quizAnswers[qId] = optionIndex;
+      appState.quizResults[qId] = (optionIndex === q.correctIndex);
+      renderQuiz();
+    };
+
+    window.selectMatchingOption = function(qId, pairIdx, value) {
+      const q = QUESTIONS.find(item => item.id === qId);
+      if (!q) return;
+      if (!appState.matchingSelections[qId]) {
+        appState.matchingSelections[qId] = new Array(q.pairs.length).fill('');
+      }
+      appState.matchingSelections[qId][pairIdx] = value;
+      appState.matchingChecked[qId] = false;
+    };
+
+    window.checkMatchingQuestion = function(qId) {
+      const q = QUESTIONS.find(item => item.id === qId);
+      if (!q) return;
+      const selections = appState.matchingSelections[qId] || [];
+      const allCorrect = q.pairs.every((pair, idx) => selections[idx] === pair.right);
+      appState.matchingChecked[qId] = true;
+      appState.quizResults[qId] = allCorrect;
+      renderQuiz();
+    };
+
+    window.exitRetryMode = function() {
+      appState.quizRetryOnly = false;
+      renderQuiz();
+    };
+
+    // =========================================================================
+    // 9. VIEW SWITCHING & MASTER SYNC
+    // =========================================================================
+    function switchMode(newMode) {
+      appState.mode = newMode;
+
+      // Update Tab Styles
+      document.querySelectorAll('.mode-tab').forEach(tab => {
+        const isTarget = tab.dataset.mode === newMode;
+        if (isTarget) {
+          tab.className = 'mode-tab active flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 border border-sky-400/40 shadow-sm';
+        } else {
+          tab.className = 'mode-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent';
+        }
+      });
+
+      // Show/Hide Views
+      document.getElementById('view-bank').classList.toggle('hidden', newMode !== 'bank');
+      document.getElementById('view-flashcards').classList.toggle('hidden', newMode !== 'flashcards');
+      document.getElementById('view-quiz').classList.toggle('hidden', newMode !== 'quiz');
+
+      syncAllViews(false);
+    }
+
+    function syncAllViews(resetFlashcardIdx = false) {
+      renderStudyBank();
+      rebuildFlashcardDeck(resetFlashcardIdx);
+      renderFlashcards();
+      renderQuiz();
+    }
+
+    // =========================================================================
+    // 10. EVENT LISTENERS & INITIALIZATION
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      updateMasteryHeader();
+      renderTopicPills();
+      syncAllViews(true);
+
+      // Mode Tabs
+      document.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchMode(tab.dataset.mode));
+      });
+
+      // Instant Search
+      const searchInput = document.getElementById('searchInput');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      searchInput.addEventListener('input', (e) => {
+        appState.search = e.target.value;
+        clearSearchBtn.classList.toggle('hidden', !appState.search);
+        syncAllViews(true);
+      });
+      clearSearchBtn.addEventListener('click', () => {
+        appState.search = '';
+        searchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        syncAllViews(true);
+      });
+
+      // Type Filter
+      document.getElementById('typeFilter').addEventListener('change', (e) => {
+        appState.type = e.target.value;
+        syncAllViews(true);
+      });
+
+      // High-Yield Toggle
+      document.getElementById('highYieldToggle').addEventListener('click', () => {
+        appState.highYieldOnly = !appState.highYieldOnly;
+        updateToggleButtonsUI();
+        syncAllViews(true);
+      });
+
+      // Flagged / Unmastered Toggle
+      document.getElementById('unmasteredToggle').addEventListener('click', () => {
+        appState.unmasteredOrFlaggedOnly = !appState.unmasteredOrFlaggedOnly;
+        updateToggleButtonsUI();
+        syncAllViews(true);
+      });
+
+      // Reveal All / Collapse All
+      document.getElementById('revealAllBtn').addEventListener('click', () => {
+        getFilteredQuestions().forEach(q => appState.revealedIds.add(q.id));
+        renderStudyBank();
+      });
+      document.getElementById('collapseAllBtn').addEventListener('click', () => {
+        appState.revealedIds.clear();
+        renderStudyBank();
+      });
+
+      // Flashcard Controls
+      document.getElementById('flashcardTapArea').addEventListener('click', flipFlashcard);
+      document.getElementById('fcPrevBtn').addEventListener('click', prevFlashcard);
+      document.getElementById('fcNextBtn').addEventListener('click', nextFlashcard);
+      document.getElementById('fcShuffleBtn').addEventListener('click', shuffleFlashcards);
+      document.getElementById('fcFlagBtn').addEventListener('click', () => {
+        if (appState.fcDeck.length === 0) return;
+        toggleFlagged(appState.fcDeck[appState.fcIndex].id);
+      });
+      document.getElementById('fcMasterBtn').addEventListener('click', () => {
+        if (appState.fcDeck.length === 0) return;
+        toggleMastered(appState.fcDeck[appState.fcIndex].id);
+      });
+
+      // Touch Swipe Support on Flashcard
+      let touchStartX = 0;
+      const tapArea = document.getElementById('flashcardTapArea');
+      tapArea.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      tapArea.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 55) {
+          if (diff < 0) nextFlashcard();
+          else prevFlashcard();
+        }
+      }, { passive: true });
+
+      // Keyboard Shortcuts in Flashcard Mode
+      document.addEventListener('keydown', (e) => {
+        if (appState.mode !== 'flashcards') return;
+        if (document.activeElement === searchInput) return;
+        if (e.code === 'Space') {
+          e.preventDefault();
+          flipFlashcard();
+        } else if (e.code === 'ArrowRight') {
+          nextFlashcard();
+        } else if (e.code === 'ArrowLeft') {
+          prevFlashcard();
+        }
+      });
+
+      // Quiz Controls
+      document.getElementById('retryIncorrectBtn').addEventListener('click', () => {
+        appState.quizRetryOnly = !appState.quizRetryOnly;
+        renderQuiz();
+      });
+      document.getElementById('restartQuizBtn').addEventListener('click', () => {
+        appState.quizAnswers = {};
+        appState.matchingSelections = {};
+        appState.matchingChecked = {};
+        appState.quizResults = {};
+        appState.quizRetryOnly = false;
+        appState.shuffledPairsCache = {};
+        renderQuiz();
+      });
+
+      // Reset Progress Inline Popover (No confirm())
+      const resetPopover = document.getElementById('resetPopover');
+      document.getElementById('resetProgressBtn').addEventListener('click', () => {
+        resetPopover.classList.toggle('hidden');
+      });
+      document.getElementById('cancelResetBtn').addEventListener('click', () => {
+        resetPopover.classList.add('hidden');
+      });
+      document.getElementById('confirmResetBtn').addEventListener('click', () => {
+        userState = { masteredIds: [], flaggedIds: [] };
+        saveUserState();
+        resetPopover.classList.add('hidden');
+        syncAllViews(false);
+      });
+    });
+  </script>
+</body>
+</html>
